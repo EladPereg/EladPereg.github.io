@@ -32,18 +32,29 @@
 
         body {
             font-family: 'Rubik', 'Assistant', sans-serif;
-            background-color: #030712;
-            color: #f3f4f6;
             overflow-x: hidden;
             scroll-behavior: smooth;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Dark Theme Default */
+        body.dark-theme {
+            background-color: #030712;
+            color: #f3f4f6;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            background-color: #f8fafc;
+            color: #0f172a;
         }
 
         .code-font {
             font-family: 'Fira Code', monospace;
         }
 
-        /* Glassmorphism Styles & Enhanced Neon Glow */
-        .glass-card {
+        /* Dark Glassmorphism */
+        .dark-theme .glass-card {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -52,17 +63,47 @@
             transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .glass-card:hover {
+        .dark-theme .glass-card:hover {
             border-color: rgba(0, 240, 255, 0.4);
             box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), 0 8px 32px 0 rgba(0, 0, 0, 0.4);
             transform: translateY(-4px);
         }
 
-        .glass-nav {
-            background: rgba(3, 7, 18, 0.75);
+        .dark-theme .glass-nav {
+            background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0, 240, 255, 0.15);
         }
+
+        /* Light Glassmorphism */
+        .light-theme .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .light-theme .glass-card:hover {
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 12px 30px -5px rgba(14, 165, 233, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .light-theme .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* Text Overrides for Light Theme */
+        .light-theme .text-white { color: #0f172a !important; }
+        .light-theme .text-slate-100 { color: #0f172a !important; }
+        .light-theme .text-slate-300 { color: #1e293b !important; }
+        .light-theme .text-slate-400 { color: #475569 !important; }
+        .light-theme .bg-slate-900, .light-theme .bg-slate-950 { background-color: #f1f5f9 !important; }
+        .light-theme .border-slate-800 { border-color: #cbd5e1 !important; }
 
         /* Glowing Neon Effects */
         .glow-cyan {
@@ -71,10 +112,6 @@
 
         .text-glow-cyan {
             text-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
-        }
-
-        .text-glow-purple {
-            text-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
         }
 
         /* Keyframe Animations */
@@ -123,14 +160,194 @@
         }
     </style>
 </head>
-<body class="hex-bg min-h-screen relative selection:bg-cyan-500 selection:text-black">
+<body class="dark-theme hex-bg min-h-screen relative selection:bg-cyan-500 selection:text-black">
 
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Interactive Animated Canvas Background
+        const translations = {
+            he: {
+                roleTitle: "הנדסאי אלקטרוניקה | מפתח תוכנה | מדריך STEM & Makers",
+                name: "אלעד פרג",
+                subTitle: "FULL STACK & EMBEDDED",
+                navAbout: "אודותיי",
+                navApps: "אפליקציות",
+                navCapstone: "פרויקט גמר",
+                navSkills: "כישורים",
+                navContact: "צור קשר",
+                btnCv: "📄 קורות חיים",
+                heroHeading1: "מחברים בין",
+                heroHeading2: "חומרה, תוכנה וחדשנות",
+                heroDesc: "הנדסאי אלקטרוניקה (התמחות במחשבים) בעל רקע עשיר בפיתוח מערכות משובצות מחשב (Embedded Systems), תכנות מיקרו-בקרים, Full Stack והוראת טכנולוגיה.",
+                btnApps: "🚀 צפה באפליקציות",
+                btnOpenCv: "📜 פתח קורות חיים מלאים",
+                aboutTitle: "👨‍💻 אודותיי וניסיון מקצועי",
+                aboutSub: "שילוב בין עולמות החומרה, התוכנה וההדרכה",
+                card1Title: "Embedded & פיתוח תוכנה",
+                card1Desc: "פיתוח מערכות משובצות מחשב, אינטגרציית חומרה-תוכנה, תכנון מעגלים ואיתור תקלות מעבדתי (Debugging). כתיבת קוד ב-C51, VHDL, Python ופיתוח אפליקציות Full Stack.",
+                card2Title: "הדרכה ופיתוח STEM & Makers",
+                card2Desc: "פיתוח תכניות לימוד והנחיית סדנאות מעשיות באלקטרוניקה, מידול והדפסה בתלת-ממד, חורטת לייזר בעץ והנגשת תפיסות הנדסיות מורכבות.",
+                card3Title: "ניהול תחזוקה - מערכות סולאריות",
+                card3Desc: "איתור ופתרון תקלות טכניות מורכבות בשטח, ניהול צוות, תיעדוף משימות תחזוקה מונעת ושוטפת ואחריות מלאה על תפעול תקין של מערכות סולאריות.",
+                appsTitle: "📲 אפליקציות עצמאיות",
+                appsSub: "כלים אינטראקטיביים שפיתחתי הזמינים לשימוש ישיר בדפדפן",
+                app1Title: "מחשבון שכר חודשי למדריכים",
+                app1Desc: "מערכת ניהול וחישוב שכר המותאמת למחזורי שכר (21 עד 20 בחודש). כוללת חישוב החזרי נסיעות, ימי עבודה מהבית, מחשבון תחזית שכר וייצוא קובצי Excel מעוצבים למעסיק.",
+                app2Title: "מחשבון פוקר וסגירת קופה",
+                app2Desc: "אפליקציה קלה לסגירת קופה במשחקי פוקר - מעקב כניסות ו-Rebuys ב-₪, חישוב רווח/הפסד אישי בזמן אמת, אלגוריתם לקיצור העברות כספיות ושיתוף סיכום מוכן ב-WhatsApp.",
+                app3Title: "משחק סודוקו אינטראקטיבי",
+                app3Desc: "משחק סודוקו אינטראקטיבי לבניית חשיבה לוגית. כולל מחולל לוחות ברמות קושי שונות, שמירת מצב המשחק אוטומטית בדפדפן וממשק משתמש חלק ומהיר.",
+                app4Title: "משחק איקס עיגול",
+                app4Desc: "גרסה מודרנית ומהנה למשחק הקלאסי איקס עיגול. כוללת מעקב אחר תוצאות הניצחונות, אנימציות חלקות ואפשרות למשחק מהיר מול שחקן נוסף באותו המכשיר.",
+                btnLive: "🚀 לחץ כאן פתיחת האפליקציה בלייב",
+                capstoneTitle: "🛡️ פרויקט הגמר: מערכת אבטחה לחדר נקי",
+                capstoneSub: "המכללה הטכנולוגית באר שבע | מערכת משובצת מחשב C8051F380",
+                skillsTitle: "⚡ כישורים וטכנולוגיות",
+                contactHeading: "רוצים ליצור פרויקט יחד?",
+                contactSub: "מוזמנים לפנות אלי לכל שאלה, שיתוף פעולה טכנולוגי, פיתוח מערכות או ייעוץ באמצעות הטופס או וואטסאפ.",
+                labelName: "שם מלא",
+                labelEmail: "כתובת אימייל",
+                labelMsg: "הודעה",
+                btnSend: "✉️ שליחת הודעה",
+                msgSending: "שולח הודעה...",
+                msgSuccess: "✔ ההודעה נשלחה בהצלחה! אצור איתך קשר בהקדם.",
+                msgError: "אירעה שגיאה בשליחה. אנא פנה אליי בוואטסאפ או במייל: Elado841@gmail.com",
+                cvModalHeader: "קורות חיים – אלעד פרג",
+                cvModalNotice: "🔒 מסמך קורות חיים מאובטח לצפייה ישירה בלבד.",
+                cvData: {
+                    title: "הנדסאי אלקטרוניקה (התמחות במחשבים)",
+                    location: "📍 נתיבות (נכונות להעתקת מגורים/נסיעות)",
+                    summaryTitle: "תקציר מקצועי:",
+                    summaryText: "הנדסאי אלקטרוניקה בעל התמחות במחשבים ורקע מעשי עשיר בפיתוח מערכות משובצות מחשב (Embedded Systems), תכנות מיקרו-בקרים, ואינטגרציית חומרה-תוכנה. ניסיון בתכנון מעגלים ואיתור תקלות מעבדתי (Debugging). שילוב של הבנה הנדסית יסודית, כישורי ניהול והובלת פרויקטים טכנולוגיים, ויכולת גבוהה לעבודה בצוות. בעל מוסר עבודה גבוה, יכולת הסתגלות מהירה וחוסן אישי.",
+                    skillsHeader: "🛠️ כישורים טכניים",
+                    skills1Title: "• שפות תכנות וסביבות פיתוח:",
+                    skills1Desc: "C (C51), VHDL, Python, Keil µVision, Quartus, MATLAB.",
+                    skills2Title: "• מיקרו-בקרים ורכיבים:",
+                    skills2Desc: "Silicon Labs C8051F380, חיישנים (DS1621), RFID (RDM6300), צגי LCD, מנועי Servo.",
+                    skills3Title: "• עבודת מעבדה וציוד:",
+                    skills3Desc: "איתור תקלות (Debugging), קריאת שרטוטים סכמתיים, עבודה עם צב\"ד (אוסצילוסקופ, מחולל אותות, רב-מודד).",
+                    projectHeader: "🛡️ פרויקט הנדסי - פרויקט גמר (המכללה הטכנולוגית באר שבע)",
+                    projectName: "מערכת אבטחה לחדר נקי (מערכת משובצת מחשב)",
+                    projectBullets: [
+                        "תכנון ופיתוח מערכת אבטחה מרובת-שלבים המבוססת על מיקרו-בקר C8051F380 בשפת C51.",
+                        "אינטגרציה מלאה של שלושה מנגנוני אימות: קוד אישי (Keypad), תגי RFID וזיהוי פנים מבוסס אלגוריתמי AI בסביבת MATLAB.",
+                        "מימוש תקשורת UART לחיבור וסנכרון הנתונים בין המחשב למיקרו-בקר.",
+                        "תכנון, איתור תקלות (Debugging) וכתיבת פונקציות בקרה לתגובת זמן-אמת של המערכת, תפעול מנועי SERVO, חיווי על גבי צג LCD1602 וחיווי קולי."
+                    ],
+                    expHeader: "💼 ניסיון מקצועי",
+                    exp1Title: "מדריך ומפתח תוכניות לימוד בתחומי ה-STEM וה-Makers",
+                    exp1Date: "(בחוזה עד אמצע ינואר 2027)",
+                    exp1Bullets: [
+                        "הנחיית סדנאות מעשיות (Makers) בתחומי האלקטרוניקה, תכנון והדפסה בתלת-ממד, עבודה עם חורטת לייזר בעץ.",
+                        "הנגשת תפיסות הנדסיות וטכנולוגיות מורכבות למגוון קהלי יעד."
+                    ],
+                    exp2Title: "מנהל צוות תחזוקה | חברה למערכות סולאריות",
+                    exp2Bullets: [
+                        "איתור ופתרון תקלות טכניות מורכבות בשטח.",
+                        "ניהול צוות, תיעדוף משימות תחזוקה מונעת ושוטפת, ואחריות על תפעול תקין."
+                    ],
+                    eduHeader: "🎓 השכלה",
+                    edu1: "• דיפלומת הנדסאי אלקטרוניקה (מחשבים): המכללה הטכנולוגית באר שבע (2025–2026)",
+                    edu2: "• תואר ראשון (.B.Ed.) בחינוך והוראה: מכללת אורות ישראל (2018–2022)",
+                    edu3: "• קורס Full Stack Web Development: מכללת SVcollege ברחובות (2023)",
+                    milHeader: "🎖️ שירות צבאי",
+                    mil1: "• שירות מילואים: שירות מילואים פעיל ומבצעי בגדוד 84, חטיבת גבעתי.",
+                    mil2: "• שירות סדיר: גדוד 405, חיל התותחנים."
+                }
+            },
+            en: {
+                roleTitle: "Electronics Engineer | Software Developer | STEM & Makers Instructor",
+                name: "Elad Pereg",
+                subTitle: "FULL STACK & EMBEDDED",
+                navAbout: "About",
+                navApps: "Apps",
+                navCapstone: "Capstone Project",
+                navSkills: "Skills",
+                navContact: "Contact",
+                btnCv: "📄 Resume",
+                heroHeading1: "Bridging the gap between",
+                heroHeading2: "Hardware, Software & Innovation",
+                heroDesc: "Electronics Practical Engineer specialized in Embedded Systems, microcontroller programming, Full Stack web development, and STEM technology instruction.",
+                btnApps: "🚀 View Live Apps",
+                btnOpenCv: "📜 View Full Resume",
+                aboutTitle: "👨‍💻 About Me & Experience",
+                aboutSub: "Combining hardware engineering, code, and tech instruction",
+                card1Title: "Embedded & Software Dev",
+                card1Desc: "Development of embedded systems, hardware-software integration, circuit design, and lab debugging. Hands-on coding in C51, VHDL, Python, and Full Stack React apps.",
+                card2Title: "STEM & Makers Instruction",
+                card2Desc: "Curriculum development and hands-on workshops in electronics, 3D printing & modeling, laser cutting, and breaking down complex engineering concepts.",
+                card3Title: "Solar Maintenance Management",
+                card3Desc: "On-site troubleshooting for solar energy systems, team management, preventive maintenance scheduling, and full operational execution.",
+                appsTitle: "📲 Standalone Web Applications",
+                appsSub: "Interactive tools I built, live and ready to use in the browser",
+                app1Title: "Monthly Instructor Salary Calculator",
+                app1Desc: "Salary management system tailored for custom pay cycles (21st to 20th). Features travel expense tracking, work-from-home days, salary forecasts, and formatted Excel exports.",
+                app2Title: "Poker Cashier & Settlement Calculator",
+                app2Desc: "Streamlined app for poker game buy-ins/rebuys, real-time profit/loss calculation, transaction-minimizing algorithm, and instant WhatsApp summary sharing.",
+                app3Title: "Interactive Sudoku Game",
+                app3Desc: "Interactive Sudoku game for logical thinking. Includes board generator with multiple difficulties, auto-save state, and smooth UI.",
+                app4Title: "Tic-Tac-Toe Game",
+                app4Desc: "Modern and fun version of the classic Tic-Tac-Toe game with score tracking, smooth animations, and local 2-player support.",
+                btnLive: "🚀 Launch Live App",
+                capstoneTitle: "🛡️ Capstone Project: Clean Room Security System",
+                capstoneSub: "Beer Sheva Technological College | Embedded System C8051F380",
+                skillsTitle: "⚡ Skills & Technologies",
+                contactHeading: "Want to build something together?",
+                contactSub: "Feel free to reach out for questions, technical collaborations, system development, or consulting.",
+                labelName: "Full Name",
+                labelEmail: "Email Address",
+                labelMsg: "Message",
+                btnSend: "✉️ Send Message",
+                msgSending: "Sending message...",
+                msgSuccess: "✔ Message sent successfully! I will get back to you soon.",
+                msgError: "An error occurred. Please contact me via WhatsApp or email: Elado841@gmail.com",
+                cvModalHeader: "Resume – Elad Pereg",
+                cvModalNotice: "🔒 Secure resume document for direct viewing only.",
+                cvData: {
+                    title: "Practical Electronics Engineer (Computers)",
+                    location: "📍 Netivot, Israel (Willing to relocate / travel)",
+                    summaryTitle: "Professional Summary:",
+                    summaryText: "Practical Electronics Engineer specializing in computer hardware, with rich hands-on experience in Embedded Systems, microcontroller programming, and hardware-software integration. Experienced in circuit design and lab debugging. Combines solid engineering fundamentals, leadership and teamwork skills. High work ethic, fast adaptability, and strong personal resilience.",
+                    skillsHeader: "🛠️ Technical Skills",
+                    skills1Title: "• Programming Languages & IDEs:",
+                    skills1Desc: "C (C51), VHDL, Python, Keil µVision, Quartus, MATLAB.",
+                    skills2Title: "• Microcontrollers & Components:",
+                    skills2Desc: "Silicon Labs C8051F380, Sensors (DS1621), RFID (RDM6300), LCD Displays, Servo Motors.",
+                    skills3Title: "• Lab Work & Equipment:",
+                    skills3Desc: "Debugging, reading schematic blueprints, operating test equipment (Oscilloscope, Signal Generator, Multimeter).",
+                    projectHeader: "🛡️ Engineering Project - Capstone (Beer Sheva Technological College)",
+                    projectName: "Clean Room Security System (Embedded System)",
+                    projectBullets: [
+                        "Designed and developed a multi-stage security system based on the C8051F380 microcontroller in C51.",
+                        "Full integration of three authentication methods: Keypad PIN, RFID tags, and MATLAB AI facial recognition.",
+                        "Implemented UART communication for data synchronization between PC and microcontroller.",
+                        "Debugging, testing, and writing real-time control functions, servo motor control, LCD1602 display indicators, and voice alerts."
+                    ],
+                    expHeader: "💼 Professional Experience",
+                    exp1Title: "STEM & Makers Curriculum Developer & Instructor",
+                    exp1Date: "(Contract through mid-January 2027)",
+                    exp1Bullets: [
+                        "Instructed practical Maker workshops in electronics, 3D printing & modeling, and laser wood engraving.",
+                        "Simplified complex engineering and technological concepts for diverse target audiences."
+                    ],
+                    exp2Title: "Maintenance Team Manager | Solar Energy Company",
+                    exp2Bullets: [
+                        "On-site troubleshooting and resolution of complex technical system faults.",
+                        "Team management, preventive and routine maintenance scheduling, and operational reliability."
+                    ],
+                    eduHeader: "🎓 Education",
+                    edu1: "• Electronics Engineering Diploma (Computers) – Technological College of Beer Sheva (2025–2026)",
+                    edu2: "• B.Ed. Degree in Education – Orot Israel College (2018–2022)",
+                    edu3: "• Full Stack Web Development Course – SVcollege Rehovot (2023)",
+                    milHeader: "🎖️ Military Service",
+                    mil1: "• Active Reserve Duty: Battalion 84, Givati Brigade.",
+                    mil2: "• Regular Service: Battalion 405, Artillery Corps."
+                }
+            }
+        };
+
         const ParticleCanvas = () => {
             const canvasRef = useRef(null);
 
@@ -216,16 +433,29 @@
         };
 
         function App() {
-            const [activeSlide, setActiveSlide] = useState(0);
+            const [lang, setLang] = useState('he');
+            const [theme, setTheme] = useState('dark');
             const [isCvOpen, setIsCvOpen] = useState(false);
             const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
             const [formStatus, setFormStatus] = useState(null);
 
+            const t = translations[lang];
+            const cv = t.cvData;
+
             useEffect(() => {
-                if (window.lucide) {
-                    window.lucide.createIcons();
+                document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+                document.documentElement.lang = lang;
+            }, [lang]);
+
+            useEffect(() => {
+                if (theme === 'light') {
+                    document.body.classList.remove('dark-theme');
+                    document.body.classList.add('light-theme');
+                } else {
+                    document.body.classList.remove('light-theme');
+                    document.body.classList.add('dark-theme');
                 }
-            });
+            }, [theme]);
 
             const triggerConfetti = () => {
                 if (window.confetti) {
@@ -270,100 +500,101 @@
             };
 
             const skills = [
-                { name: 'React / JSX', level: 92, category: 'software', color: 'bg-cyan-500', glow: 'shadow-cyan-500/50' },
-                { name: 'JavaScript (ES6+)', level: 90, category: 'software', color: 'bg-blue-500', glow: 'shadow-blue-500/50' },
-                { name: 'Tailwind CSS & Design Systems', level: 95, category: 'software', color: 'bg-teal-400', glow: 'shadow-teal-400/50' },
-                { name: 'Embedded C / C51', level: 88, category: 'embedded', color: 'bg-purple-500', glow: 'shadow-purple-500/50' },
-                { name: 'VHDL & MATLAB', level: 82, category: 'embedded', color: 'bg-pink-500', glow: 'shadow-pink-500/50' },
-                { name: '3D Modeling (Tinkercad / OpenSCAD)', level: 90, category: 'makers', color: 'bg-amber-400', glow: 'shadow-amber-400/50' },
+                { name: 'React / JSX', level: 92, color: 'bg-cyan-500' },
+                { name: 'JavaScript (ES6+)', level: 90, color: 'bg-blue-500' },
+                { name: 'Tailwind CSS & Design Systems', level: 95, color: 'bg-teal-400' },
+                { name: 'Embedded C / C51', level: 88, color: 'bg-purple-500' },
+                { name: 'VHDL & MATLAB', level: 82, color: 'bg-pink-500' },
+                { name: '3D Modeling (Tinkercad / OpenSCAD)', level: 90, color: 'bg-amber-400' },
             ];
 
             return (
-                <div className="min-h-screen relative z-10 text-slate-100 flex flex-col justify-between">
+                <div className="min-h-screen relative z-10 flex flex-col justify-between">
                     
-                    {/* Glowing Ambient Lights */}
                     <div className="fixed top-10 left-10 w-96 h-96 bg-cyan-500/15 rounded-full blur-[120px] pointer-events-none animate-glow-1"></div>
                     <div className="fixed bottom-10 right-10 w-96 h-96 bg-purple-600/15 rounded-full blur-[140px] pointer-events-none animate-glow-2"></div>
 
-                    {/* Futuristic Glass Navbar */}
                     <header className="fixed top-0 left-0 right-0 z-50 glass-nav px-4 md:px-8 py-3.5">
                         <div className="max-w-7xl mx-auto flex items-center justify-between">
                             <a href="#" className="flex items-center gap-3 group">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:shadow-[0_0_25px_rgba(0,240,255,0.7)] transition">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20">
                                     <div className="w-full h-full bg-slate-950 rounded-[11px] flex items-center justify-center font-black text-cyan-400 text-lg code-font">
                                         EP
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <span className="font-extrabold text-lg text-white tracking-wide group-hover:text-cyan-400 transition text-glow-cyan">
-                                        אלעד פרג
+                                <div className="flex flex-col text-start">
+                                    <span className="font-extrabold text-lg text-white tracking-wide">
+                                        {t.name}
                                     </span>
-                                    <span className="text-[10px] text-cyan-400/80 code-font tracking-widest uppercase">
-                                        FULL STACK & EMBEDDED
+                                    <span className="text-[10px] text-cyan-400 code-font tracking-widest uppercase">
+                                        {t.subTitle}
                                     </span>
                                 </div>
                             </a>
 
-                            <nav className="hidden md:flex items-center gap-8 text-sm font-semibold">
-                                <a href="#about" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
-                                    <span className="text-cyan-500 code-font">//</span> אודותיי
+                            <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold">
+                                <a href="#about" className="text-slate-300 hover:text-cyan-400 transition">
+                                    <span className="text-cyan-500 code-font">//</span> {t.navAbout}
                                 </a>
-                                <a href="#apps" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
-                                    <span className="text-cyan-500 code-font">//</span> אפליקציות
+                                <a href="#apps" className="text-slate-300 hover:text-cyan-400 transition">
+                                    <span className="text-cyan-500 code-font">//</span> {t.navApps}
                                 </a>
-                                <a href="#capstone" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
-                                    <span className="text-cyan-500 code-font">//</span> פרויקט גמר
+                                <a href="#capstone" className="text-slate-300 hover:text-cyan-400 transition">
+                                    <span className="text-cyan-500 code-font">//</span> {t.navCapstone}
                                 </a>
-                                <a href="#skills" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
-                                    <span className="text-cyan-500 code-font">//</span> כישורים
+                                <a href="#skills" className="text-slate-300 hover:text-cyan-400 transition">
+                                    <span className="text-cyan-500 code-font">//</span> {t.navSkills}
                                 </a>
-                                <a href="#contact" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
-                                    <span className="text-cyan-500 code-font">//</span> צור קשר
+                                <a href="#contact" className="text-slate-300 hover:text-cyan-400 transition">
+                                    <span className="text-cyan-500 code-font">//</span> {t.navContact}
                                 </a>
                             </nav>
 
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2.5">
+                                <button
+                                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                                    className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-amber-300 border border-slate-700 transition flex items-center justify-center text-sm"
+                                    title="Toggle Light/Dark Mode"
+                                >
+                                    {theme === 'dark' ? '☀️' : '🌙'}
+                                </button>
+
+                                <button
+                                    onClick={() => setLang(lang === 'he' ? 'en' : 'he')}
+                                    className="px-3 py-1.5 rounded-xl bg-cyan-950/60 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950 font-bold text-xs transition flex items-center gap-1 code-font"
+                                >
+                                    <span>🌐</span>
+                                    <span>{lang === 'he' ? 'EN' : 'HE'}</span>
+                                </button>
+
                                 <button 
                                     onClick={() => setIsCvOpen(true)}
-                                    className="relative inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-purple-300 transition duration-300 bg-purple-950/50 border border-purple-500/50 rounded-xl hover:bg-purple-600 hover:text-white hover:shadow-[0_0_25px_rgba(168,85,247,0.8)]"
+                                    className="px-3.5 py-1.5 text-xs font-bold text-purple-300 transition bg-purple-950/50 border border-purple-500/50 rounded-xl hover:bg-purple-600 hover:text-white"
                                 >
-                                    📄 קורות חיים
+                                    {t.btnCv}
                                 </button>
-                                <a 
-                                    href="https://github.com/EladPereg" 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-cyan-300 transition duration-300 bg-cyan-950/40 border border-cyan-500/40 rounded-xl hover:bg-cyan-500 hover:text-slate-950 hover:shadow-[0_0_20px_rgba(0,240,255,0.7)]"
-                                >
-                                    <span className="relative flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                                        GitHub Profile
-                                    </span>
-                                </a>
                             </div>
                         </div>
                     </header>
 
-                    {/* Main Content Wrap */}
                     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 space-y-28 flex-1 w-full">
 
-                        {/* HERO SECTION */}
                         <section id="about" className="pt-8 md:pt-16 flex flex-col lg:flex-row items-center justify-between gap-12">
-                            <div className="flex-1 space-y-6 text-right">
-                                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-mono tracking-wide">
+                            <div className="flex-1 space-y-6 text-start">
+                                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-mono">
                                     <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                                    הנדסאי אלקטרוניקה | מפתח תוכנה | מדריך STEM & Makers
+                                    {t.roleTitle}
                                 </div>
 
                                 <div className="space-y-3">
                                     <h1 className="text-4xl sm:text-6xl font-black text-white leading-tight">
-                                        מחברים בין <br />
-                                        <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent text-glow-cyan">
-                                            חומרה, תוכנה וחדשנות
+                                        {t.heroHeading1} <br />
+                                        <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+                                            {t.heroHeading2}
                                         </span>
                                     </h1>
                                     <p className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl font-normal">
-                                        הנדסאי אלקטרוניקה (התמחות במחשבים) בעל רקע עשיר בפיתוח מערכות משובצות מחשב (Embedded Systems), תכנות מיקרו-בקרים, Full Stack והוראת טכנולוגיה.
+                                        {t.heroDesc}
                                     </p>
                                 </div>
 
@@ -371,23 +602,21 @@
                                     <a 
                                         href="#apps" 
                                         onClick={triggerConfetti}
-                                        className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-extrabold text-sm shadow-lg shadow-cyan-500/25 hover:shadow-[0_0_25px_rgba(0,240,255,0.7)] hover:scale-105 transition duration-300 flex items-center gap-2"
+                                        className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-extrabold text-sm shadow-lg hover:scale-105 transition flex items-center gap-2"
                                     >
-                                        <span>🚀</span> צפה באפליקציות
+                                        {t.btnApps}
                                     </a>
                                     <button 
                                         onClick={() => setIsCvOpen(true)}
-                                        className="px-6 py-3.5 rounded-xl bg-purple-900/40 border border-purple-500/40 hover:border-purple-400 text-purple-200 font-bold text-sm hover:text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition duration-300 flex items-center gap-2"
+                                        className="px-6 py-3.5 rounded-xl bg-purple-900/40 border border-purple-500/40 text-purple-200 font-bold text-sm hover:text-white transition flex items-center gap-2"
                                     >
-                                        <span>📜</span> פתח קורות חיים מלאים
+                                        {t.btnOpenCv}
                                     </button>
                                 </div>
                             </div>
 
-                            {/* Terminal / Code Visual Card */}
                             <div className="w-full lg:w-96 flex-shrink-0 animate-float">
-                                <div className="glass-card rounded-3xl p-6 relative overflow-hidden group">
-                                    <div className="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-2xl group-hover:bg-cyan-500/40 transition duration-500"></div>
+                                <div className="glass-card rounded-3xl p-6 relative overflow-hidden">
                                     <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
                                         <div className="flex gap-1.5">
                                             <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -398,8 +627,7 @@
                                     </div>
                                     <div className="code-font text-xs space-y-2 text-slate-300 leading-relaxed">
                                         <p><span className="text-purple-400">const</span> <span className="text-cyan-300">expert</span> = &#123;</p>
-                                        <p className="pl-4"><span className="text-pink-400">name</span>: <span className="text-emerald-300">'אלעד פרג'</span>,</p>
-                                        <p className="pl-4"><span className="text-pink-400">degree</span>: <span className="text-emerald-300">'הנדסאי אלקטרוניקה'</span>,</p>
+                                        <p className="pl-4"><span className="text-pink-400">name</span>: <span className="text-emerald-300">'{t.name}'</span>,</p>
                                         <p className="pl-4"><span className="text-pink-400">skills</span>: [<span className="text-amber-300">'Embedded C'</span>, <span className="text-amber-300">'React'</span>, <span className="text-amber-300">'VHDL'</span>]</p>
                                         <p>&#125;;</p>
                                     </div>
@@ -407,72 +635,39 @@
                             </div>
                         </section>
 
-                        {/* ABOUT SECTIONS */}
                         <section className="space-y-8">
-                            <div className="text-right space-y-2">
-                                <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
-                                    <span className="text-cyan-400">👨‍💻</span> אודותיי וניסיון מקצועי
-                                </h2>
-                                <p className="text-slate-400 text-xs">שילוב בין עולמות החומרה, התוכנה וההדרכה</p>
+                            <div className="text-start space-y-2">
+                                <h2 className="text-3xl font-black text-white">{t.aboutTitle}</h2>
+                                <p className="text-slate-400 text-xs">{t.aboutSub}</p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="glass-card rounded-3xl p-7 space-y-4 border border-cyan-500/20">
-                                    <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-2xl text-cyan-400">
-                                        💻
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white">Embedded & פיתוח תוכנה</h3>
-                                    <p className="text-slate-300 text-sm leading-relaxed">
-                                        פיתוח מערכות משובצות מחשב, אינטגרציית חומרה-תוכנה, תכנון מעגלים ואיתור תקלות מעבדתי (Debugging). כתיבת קוד ב-C51, VHDL, Python ופיתוח אפליקציות Full Stack.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2 pt-2">
-                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">Embedded C / C51</span>
-                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">C8051F380</span>
-                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">VHDL & MATLAB</span>
-                                    </div>
+                                    <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-2xl text-cyan-400">💻</div>
+                                    <h3 className="text-2xl font-bold text-white">{t.card1Title}</h3>
+                                    <p className="text-slate-300 text-sm leading-relaxed">{t.card1Desc}</p>
                                 </div>
 
                                 <div className="glass-card rounded-3xl p-7 space-y-4 border border-purple-500/20">
-                                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl text-purple-400">
-                                        🚀
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white">הדרכה ופיתוח STEM & Makers</h3>
-                                    <p className="text-slate-300 text-sm leading-relaxed">
-                                        פיתוח תכניות לימוד והנחיית סדנאות מעשיות באלקטרוניקה, מידול והדפסה בתלת-ממד, חורטת לייזר בעץ והנגשת תפיסות הנדסיות מורכבות.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2 pt-2">
-                                        <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">מידול 3D & לייזר</span>
-                                        <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">מעגלים ואלקטרוניקה</span>
-                                        <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">הדרכת STEM</span>
-                                    </div>
+                                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl text-purple-400">🚀</div>
+                                    <h3 className="text-2xl font-bold text-white">{t.card2Title}</h3>
+                                    <p className="text-slate-300 text-sm leading-relaxed">{t.card2Desc}</p>
                                 </div>
 
                                 <div className="md:col-span-2 max-w-xl mx-auto w-full">
-                                    <div className="glass-card rounded-3xl p-7 space-y-4 border border-emerald-500/20 relative overflow-hidden group">
-                                        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-2xl text-emerald-400">
-                                            ☀️
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-white">ניהול תחזוקה - מערכות סולאריות</h3>
-                                        <p className="text-slate-300 text-sm leading-relaxed">
-                                            איתור ופתרון תקלות טכניות מורכבות בשטח, ניהול צוות, תיעדוף משימות תחזוקה מונעת ושוטפת ואחריות מלאה על תפעול תקין של מערכות סולאריות.
-                                        </p>
-                                        <div className="flex flex-wrap gap-2 pt-2">
-                                            <span className="text-xs bg-slate-900/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-lg">ניהול צוותים</span>
-                                            <span className="text-xs bg-slate-900/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-lg">מערכות סולאריות</span>
-                                            <span className="text-xs bg-slate-900/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-lg">איתור תקלות שטח</span>
-                                        </div>
+                                    <div className="glass-card rounded-3xl p-7 space-y-4 border border-emerald-500/20">
+                                        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-2xl text-emerald-400">☀️</div>
+                                        <h3 className="text-2xl font-bold text-white">{t.card3Title}</h3>
+                                        <p className="text-slate-300 text-sm leading-relaxed">{t.card3Desc}</p>
                                     </div>
                                 </div>
                             </div>
                         </section>
 
-                        {/* APPS SHOWCASE */}
                         <section id="apps" className="space-y-8">
-                            <div className="text-right space-y-2">
-                                <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
-                                    <span className="text-amber-400">📲</span> אפליקציות עצמאיות
-                                </h2>
-                                <p className="text-slate-400 text-xs">כלים אינטראקטיביים שפיתחתי הזמינים לשימוש ישיר בדפדפן</p>
+                            <div className="text-start space-y-2">
+                                <h2 className="text-3xl font-black text-white">{t.appsTitle}</h2>
+                                <p className="text-slate-400 text-xs">{t.appsSub}</p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -482,20 +677,17 @@
                                             <span className="text-xs bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-bold px-3 py-1 rounded-lg">Web App</span>
                                             <span className="text-xs text-slate-400">React + Excel Export</span>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-white">מחשבון שכר חודשי למדריכים</h3>
-                                        <p className="text-slate-300 text-sm leading-relaxed">
-                                            מערכת ניהול וחישוב שכר המותאמת למחזורי שכר (21 עד 20 בחודש). כוללת חישוב החזרי נסיעות, ימי עבודה מהבית, מחשבון תחזית שכר וייצוא קובצי Excel מעוצבים למעסיק.
-                                        </p>
+                                        <h3 className="text-2xl font-bold text-white">{t.app1Title}</h3>
+                                        <p className="text-slate-300 text-sm leading-relaxed">{t.app1Desc}</p>
                                     </div>
                                     <div className="pt-4 border-t border-white/5 text-center">
                                         <a 
                                             href="https://eladpereg.github.io/salary-calculator/" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950 font-black text-sm shadow-lg hover:scale-[1.02] transition duration-300"
                                         >
-                                            <span>🚀</span>
-                                            <span>לחץ כאן פתיחת האפליקציה בלייב</span>
+                                            {t.btnLive}
                                         </a>
                                     </div>
                                 </div>
@@ -506,156 +698,161 @@
                                             <span className="text-xs bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold px-3 py-1 rounded-lg">Web App</span>
                                             <span className="text-xs text-slate-400">React + WhatsApp Integration</span>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-white">מחשבון פוקר וסגירת קופה</h3>
-                                        <p className="text-slate-300 text-sm leading-relaxed">
-                                            אפליקציה קלה לסגירת קופה במשחקי פוקר - מעקב כניסות ו-Rebuys ב-₪, חישוב רווח/הפסד אישי בזמן אמת, אלגוריתם לקיצור העברות כספיות ושיתוף סיכום מוכן ב-WhatsApp.
-                                        </p>
+                                        <h3 className="text-2xl font-bold text-white">{t.app2Title}</h3>
+                                        <p className="text-slate-300 text-sm leading-relaxed">{t.app2Desc}</p>
                                     </div>
                                     <div className="pt-4 border-t border-white/5 text-center">
                                         <a 
                                             href="https://eladpereg.github.io/poker_calculator/" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950 font-black text-sm shadow-lg hover:scale-[1.02] transition duration-300"
                                         >
-                                            <span>🚀</span>
-                                            <span>לחץ כאן פתיחת האפליקציה בלייב</span>
+                                            {t.btnLive}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
+                                    <div className="space-y-3">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-xs bg-purple-500/10 border border-purple-500/30 text-purple-300 font-bold px-3 py-1 rounded-lg">Web App</span>
+                                            <span className="text-xs text-slate-400">React + Logic Algorithms</span>
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-white">{t.app3Title}</h3>
+                                        <p className="text-slate-300 text-sm leading-relaxed">{t.app3Desc}</p>
+                                    </div>
+                                    <div className="pt-4 border-t border-white/5 text-center">
+                                        <a 
+                                            href="https://eladpereg.github.io/sudoku/" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950 font-black text-sm shadow-lg hover:scale-[1.02] transition duration-300"
+                                        >
+                                            {t.btnLive}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
+                                    <div className="space-y-3">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-xs bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-bold px-3 py-1 rounded-lg">Web App</span>
+                                            <span className="text-xs text-slate-400">React + State Management</span>
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-white">{t.app4Title}</h3>
+                                        <p className="text-slate-300 text-sm leading-relaxed">{t.app4Desc}</p>
+                                    </div>
+                                    <div className="pt-4 border-t border-white/5 text-center">
+                                        <a 
+                                            href="https://eladpereg.github.io/tic_tac_toe/" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950 font-black text-sm shadow-lg hover:scale-[1.02] transition duration-300"
+                                        >
+                                            {t.btnLive}
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </section>
 
-                        {/* CAPSTONE PROJECT SECTION */}
                         <section id="capstone" className="space-y-8">
-                            <div className="text-right space-y-2">
-                                <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
-                                    <span className="text-purple-400">🛡️</span> פרויקט הגמר: מערכת אבטחה לחדר נקי
-                                </h2>
-                                <p className="text-slate-400 text-xs">המכללה הטכנולוגית באר שבע | מערכת משובצת מחשב C8051F380</p>
+                            <div className="text-start space-y-2">
+                                <h2 className="text-3xl font-black text-white">{t.capstoneTitle}</h2>
+                                <p className="text-slate-400 text-xs">{t.capstoneSub}</p>
                             </div>
 
-                            <div className="glass-card rounded-3xl p-8 border border-purple-500/30 space-y-8">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <div className="md:col-span-2 space-y-4">
-                                        <h3 className="text-2xl font-bold text-white">תקציר הפרויקט והארכיטקטורה</h3>
-                                        <p className="text-slate-300 text-sm leading-relaxed">
-                                            תכנון ופיתוח מערכת אבטחה מרובת-שלבים המבוססת על המיקרו-בקר <strong>C8051F380</strong> בשפת C51. המערכת כוללת אינטגרציה מלאה בין שלושה מנגנוני אימות:
-                                        </p>
-                                        <ul className="text-slate-300 text-sm space-y-2 list-disc list-inside">
-                                            <li><strong>זיהוי פנים ביומטרי (MATLAB):</strong> זיהוי פנים מבוסס אלגוריתמי AI בסביבת MATLAB.</li>
-                                            <li><strong>אימות RFID (RDM6300):</strong> סריקת תגי עובד מורשים בטכנולוגיית תדר רדיו.</li>
-                                            <li><strong>לוח מקשים (Keypad 4x4):</strong> הזנת קוד אבטחה מוצפן.</li>
-                                            <li><strong>סנכרון ותקשורת UART:</strong> חיבור וסנכרון נתונים בזמן-אמת בין המחשב למיקרו-בקר.</li>
-                                        </ul>
-                                    </div>
-
-                                    <div className="bg-slate-900/90 rounded-2xl p-5 border border-purple-500/20 space-y-3 text-xs">
-                                        <h4 className="font-bold text-purple-400 border-b border-slate-800 pb-2">📋 טכנולוגיות ורכיבים</h4>
-                                        <div className="space-y-1.5 text-slate-300">
-                                            <p>• <strong>Microcontroller:</strong> C8051F380</p>
-                                            <p>• <strong>RFID:</strong> RDM6300</p>
-                                            <p>• <strong>Sensors:</strong> DS1621 (Temp)</p>
-                                            <p>• <strong>Hardware:</strong> Servo Motors, LCD1602, Keypad</p>
-                                            <p>• <strong>Tools:</strong> MATLAB, Keil µVision, UART</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="glass-card rounded-3xl p-8 border border-purple-500/30 space-y-6">
+                                <p className="text-slate-300 text-sm leading-relaxed">
+                                    {lang === 'he' 
+                                        ? 'תכנון ופיתוח מערכת אבטחה מרובת-שלבים המבוססת על המיקרו-בקר C8051F380 בשפת C51. המערכת כוללת זיהוי פנים ביומטרי (MATLAB), סריקת תגי RFID, המרת נתונים ותקשורת UART, ולוח מקשים מוצפן.'
+                                        : 'Design and development of a multi-factor clean room security system powered by Silicon Labs C8051F380 in C51. Integrates MATLAB AI face recognition, RFID tag scanning, UART data sync, and keypad entry.'
+                                    }
+                                </p>
                             </div>
                         </section>
 
-                        {/* SKILLS SECTION */}
                         <section id="skills" className="space-y-8">
-                            <div className="text-right space-y-2">
-                                <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
-                                    <span className="text-purple-400">⚡</span> כישורים וטכנולוגיות
-                                </h2>
+                            <div className="text-start space-y-2">
+                                <h2 className="text-3xl font-black text-white">{t.skillsTitle}</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {skills.map((s, idx) => (
                                     <div key={idx} className="glass-card p-5 rounded-2xl space-y-3">
                                         <div className="flex justify-between items-center text-sm">
-                                            <span className="font-bold text-slate-100">{s.name}</span>
+                                            <span className="font-bold text-slate-100 dark:text-slate-100">{s.name}</span>
                                         </div>
-                                        <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
-                                            <div 
-                                                className={`h-full rounded-full ${s.color} ${s.glow} transition-all duration-1000 ease-out`}
-                                            ></div>
+                                        <div className="w-full h-2.5 bg-slate-900 dark:bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                                            <div className={`h-full rounded-full ${s.color} transition-all duration-1000`} style={{ width: `${s.level}%` }}></div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         </section>
 
-                        {/* CONTACT SECTION WITH LIVE FORMSPREE */}
                         <section id="contact" className="pt-6">
                             <div className="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden space-y-8 border-cyan-500/30">
                                 <div className="max-w-2xl mx-auto text-center space-y-4">
-                                    <div className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
-                                        ● CONNECT WITH ELAD PEREG
-                                    </div>
                                     <h2 className="text-3xl sm:text-5xl font-black text-white">
-                                        רוצים ליצור פרויקט יחד?
+                                        {t.contactHeading}
                                     </h2>
                                     <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                                        מוזמנים לפנות אלי לכל שאלה, שיתוף פעולה טכנולוגי, פיתוח מערכות או ייעוץ באמצעות הטופס או וואטסאפ.
+                                        {t.contactSub}
                                     </p>
                                 </div>
 
-                                <form onSubmit={handleContactSubmit} className="max-w-xl mx-auto space-y-4 text-right">
+                                <form onSubmit={handleContactSubmit} className="max-w-xl mx-auto space-y-4 text-start">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-1">
-                                            <label className="text-xs text-slate-300 font-bold">שם מלא</label>
+                                            <label className="text-xs text-slate-300 font-bold">{t.labelName}</label>
                                             <input 
                                                 type="text" 
                                                 required
                                                 value={contactForm.name}
                                                 onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                                                placeholder="הכנס את שמך"
-                                                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition"
+                                                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
                                             />
                                         </div>
                                         <div className="space-y-1">
-                                            <label className="text-xs text-slate-300 font-bold">כתובת אימייל</label>
+                                            <label className="text-xs text-slate-300 font-bold">{t.labelEmail}</label>
                                             <input 
                                                 type="email" 
                                                 required
                                                 value={contactForm.email}
                                                 onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                                                placeholder="name@example.com"
-                                                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition"
+                                                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-xs text-slate-300 font-bold">הודעה</label>
+                                        <label className="text-xs text-slate-300 font-bold">{t.labelMsg}</label>
                                         <textarea 
                                             rows="4" 
                                             required
                                             value={contactForm.message}
                                             onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
-                                            placeholder="כתוב לי כאן את ההודעה..."
-                                            className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition resize-none"
+                                            className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none resize-none"
                                         ></textarea>
                                     </div>
                                     <button 
                                         type="submit"
                                         disabled={formStatus === 'sending'}
-                                        className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/20 hover:shadow-[0_0_25px_rgba(0,240,255,0.7)] hover:scale-[1.01] transition duration-300 flex items-center justify-center gap-2"
+                                        className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-black text-sm shadow-xl hover:scale-[1.01] transition duration-300 flex items-center justify-center gap-2"
                                     >
-                                        {formStatus === 'sending' ? 'שולח הודעה...' : '✉️ שליחת הודעה'}
+                                        {formStatus === 'sending' ? t.msgSending : t.btnSend}
                                     </button>
 
                                     {formStatus === 'success' && (
                                         <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-center text-xs font-bold">
-                                            ✔ ההודעה נשלחה בהצלחה! אצור איתך קשר בהקדם.
+                                            {t.msgSuccess}
                                         </div>
                                     )}
 
                                     {formStatus === 'error' && (
                                         <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-center text-xs">
-                                            אירעה שגיאה בשליחה. אנא פנה אליי בוואטסאפ או במייל: Elado841@gmail.com
+                                            {t.msgError}
                                         </div>
                                     )}
                                 </form>
@@ -667,7 +864,7 @@
                                         rel="noopener noreferrer"
                                         className="px-6 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500 hover:text-slate-950 font-bold text-xs transition duration-300 flex items-center gap-2"
                                     >
-                                        <span>💬</span> וואטסאפ: 050-5941445
+                                        <span>💬</span> WhatsApp: 050-5941445
                                     </a>
                                     <a 
                                         href="mailto:Elado841@gmail.com" 
@@ -681,112 +878,163 @@
 
                     </main>
 
-                    {/* FUTURISTIC CV MODAL (VIEW ONLY - READ ONLY) */}
+                    {/* FULLY SYNCHRONIZED TRANSLATED CV MODAL */}
                     {isCvOpen && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-slate-950/85 backdrop-blur-xl animate-fadeIn">
-                            <div className="glass-card rounded-3xl w-full max-w-4xl h-[90vh] flex flex-col border border-purple-500/50 shadow-[0_0_60px_rgba(168,85,247,0.35)] overflow-hidden relative">
+                            <div className="w-full max-w-4xl h-[90vh] flex flex-col rounded-3xl shadow-2xl overflow-hidden relative border transition-colors duration-300"
+                                style={{
+                                    backgroundColor: theme === 'light' ? '#ffffff' : '#0f172a',
+                                    borderColor: theme === 'light' ? '#cbd5e1' : 'rgba(168, 85, 247, 0.5)',
+                                    color: theme === 'light' ? '#0f172a' : '#f3f4f6'
+                                }}
+                            >
                                 
-                                {/* Modal Header */}
-                                <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90">
+                                <div className="flex items-center justify-between px-6 py-4 border-b transition-colors duration-300"
+                                    style={{
+                                        backgroundColor: theme === 'light' ? '#f1f5f9' : 'rgba(15, 23, 42, 0.9)',
+                                        borderColor: theme === 'light' ? '#cbd5e1' : '#1e293b'
+                                    }}
+                                >
                                     <div className="flex items-center gap-3">
-                                        <span className="w-3.5 h-3.5 rounded-full bg-purple-500 animate-pulse shadow-[0_0_12px_#a855f7]"></span>
+                                        <span className="w-3.5 h-3.5 rounded-full bg-purple-500 animate-pulse"></span>
                                         <div>
-                                            <h3 className="font-extrabold text-white text-base sm:text-lg">קורות חיים – אלעד פרג</h3>
-                                            <p className="text-[11px] text-purple-300/80 code-font">בס"ד | לצפייה בלבד</p>
+                                            <h3 className="font-extrabold text-base sm:text-lg" style={{ color: theme === 'light' ? '#0f172a' : '#ffffff' }}>
+                                                {t.cvModalHeader}
+                                            </h3>
+                                            <p className="text-[11px] code-font opacity-80" style={{ color: theme === 'light' ? '#475569' : '#c084fc' }}>
+                                                {lang === 'he' ? 'בס"ד | לצפייה בלבד' : 'Secure View Only'}
+                                            </p>
                                         </div>
                                     </div>
                                     <button 
                                         onClick={() => setIsCvOpen(false)}
-                                        className="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:bg-red-500 hover:text-white flex items-center justify-center transition font-bold"
+                                        className="w-10 h-10 rounded-full flex items-center justify-center transition font-extrabold text-base shadow-md border hover:bg-red-500 hover:text-white"
+                                        style={{
+                                            backgroundColor: theme === 'light' ? '#e2e8f0' : '#1e293b',
+                                            color: theme === 'light' ? '#0f172a' : '#f8fafc',
+                                            borderColor: theme === 'light' ? '#cbd5e1' : '#334155'
+                                        }}
+                                        title="סגור"
                                     >
                                         ✕
                                     </button>
                                 </div>
 
-                                {/* Modal Scrollable Body */}
                                 <div 
-                                    className="flex-1 bg-slate-950/90 p-4 sm:p-8 overflow-y-auto select-none space-y-6 text-right"
+                                    className="flex-1 p-4 sm:p-8 overflow-y-auto select-none space-y-6 text-start transition-colors duration-300"
+                                    style={{
+                                        backgroundColor: theme === 'light' ? '#f8fafc' : 'rgba(3, 7, 18, 0.9)',
+                                    }}
                                     onContextMenu={(e) => e.preventDefault()}
                                 >
-                                    {/* Header & Personal Info Box */}
-                                    <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950/30 via-slate-900 to-cyan-950/30 border border-purple-500/30 space-y-3">
-                                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                                    {/* Personal Info Box */}
+                                    <div className="p-6 rounded-2xl border space-y-3 transition-colors duration-300"
+                                        style={{
+                                            backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
+                                            borderColor: theme === 'light' ? '#cbd5e1' : 'rgba(168, 85, 247, 0.3)'
+                                        }}
+                                    >
+                                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3"
+                                            style={{ borderColor: theme === 'light' ? '#e2e8f0' : '#1e293b' }}
+                                        >
                                             <div>
-                                                <h1 className="text-3xl font-black text-white tracking-wide">אלעד פרג</h1>
-                                                <p className="text-sm font-bold text-purple-400 code-font">הנדסאי אלקטרוניקה (התמחות במחשבים)</p>
+                                                <h1 className="text-3xl font-black tracking-wide" style={{ color: theme === 'light' ? '#0f172a' : '#ffffff' }}>{t.name}</h1>
+                                                <p className="text-sm font-bold code-font" style={{ color: theme === 'light' ? '#7c3aed' : '#c084fc' }}>{cv.title}</p>
                                             </div>
-                                            <div className="text-xs text-slate-300 space-y-1 code-font">
-                                                <p>📍 נתיבות (נכונות להעתקת מגורים/נסיעות)</p>
+                                            <div className="text-xs space-y-1 code-font" style={{ color: theme === 'light' ? '#334155' : '#cbd5e1' }}>
+                                                <p>{cv.location}</p>
                                                 <p>📞 050-5941445</p>
                                                 <p>✉️ Elado841@gmail.com</p>
                                             </div>
                                         </div>
-                                        <p className="text-xs text-slate-300 leading-relaxed">
-                                            <strong>תקציר מקצועי:</strong> הנדסאי אלקטרוניקה בעל התמחות במחשבים ורקע מעשי עשיר בפיתוח מערכות משובצות מחשב (Embedded Systems), תכנות מיקרו-בקרים, ואינטגרציית חומרה-תוכנה. ניסיון בתכנון מעגלים ואיתור תקלות מעבדתי (Debugging). שילוב של הבנה הנדסית יסודית, כישורי ניהול והובלת פרויקטים טכנולוגיים, ויכולת גבוהה לעבודה בצוות. בעל מוסר עבודה גבוה, יכולת הסתגלות מהירה וחוסן אישי.
+                                        <p className="text-xs leading-relaxed" style={{ color: theme === 'light' ? '#1e293b' : '#cbd5e1' }}>
+                                            <strong style={{ color: theme === 'light' ? '#0f172a' : '#ffffff' }}>{cv.summaryTitle}</strong> {cv.summaryText}
                                         </p>
                                     </div>
 
                                     {/* Technical Skills */}
-                                    <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
-                                        <h4 className="text-sm font-bold text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2">
-                                            <span>🛠️</span> כישורים טכניים
+                                    <div className="p-5 rounded-2xl border space-y-3 transition-colors duration-300"
+                                        style={{
+                                            backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
+                                            borderColor: theme === 'light' ? '#cbd5e1' : '#1e293b'
+                                        }}
+                                    >
+                                        <h4 className="text-sm font-bold flex items-center gap-2 border-b pb-2"
+                                            style={{ color: theme === 'light' ? '#0284c7' : '#22d3ee', borderColor: theme === 'light' ? '#e2e8f0' : '#1e293b' }}
+                                        >
+                                            <span>🛠️</span> {cv.skillsHeader.replace('🛠️ ', '')}
                                         </h4>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                                             <div className="space-y-1">
-                                                <p className="font-bold text-purple-300">• שפות תכנות וסביבות פיתוח:</p>
-                                                <p className="text-slate-400">C (C51), VHDL, Python, Keil µVision, Quartus, MATLAB.</p>
+                                                <p className="font-bold" style={{ color: theme === 'light' ? '#7c3aed' : '#d8b4fe' }}>{cv.skills1Title}</p>
+                                                <p style={{ color: theme === 'light' ? '#475569' : '#94a3b8' }}>{cv.skills1Desc}</p>
                                             </div>
                                             <div className="space-y-1">
-                                                <p className="font-bold text-purple-300">• מיקרו-בקרים ורכיבים:</p>
-                                                <p className="text-slate-400">Silicon Labs C8051F380, חיישנים (DS1621), RFID (RDM6300), צגי LCD, מנועי Servo.</p>
+                                                <p className="font-bold" style={{ color: theme === 'light' ? '#7c3aed' : '#d8b4fe' }}>{cv.skills2Title}</p>
+                                                <p style={{ color: theme === 'light' ? '#475569' : '#94a3b8' }}>{cv.skills2Desc}</p>
                                             </div>
-                                            <div className="sm:col-span-2 space-y-1 border-t border-slate-800/60 pt-2">
-                                                <p className="font-bold text-purple-300">• עבודת מעבדה וציוד:</p>
-                                                <p className="text-slate-400">איתור תקלות (Debugging), קריאת שרטוטים סכמתיים, עבודה עם צב"ד (אוסצילוסקופ, מחולל אותות, רב-מודד).</p>
+                                            <div className="sm:col-span-2 space-y-1 border-t pt-2" style={{ borderColor: theme === 'light' ? '#e2e8f0' : 'rgba(30, 41, 59, 0.6)' }}>
+                                                <p className="font-bold" style={{ color: theme === 'light' ? '#7c3aed' : '#d8b4fe' }}>{cv.skills3Title}</p>
+                                                <p style={{ color: theme === 'light' ? '#475569' : '#94a3b8' }}>{cv.skills3Desc}</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Capstone Project */}
-                                    <div className="p-5 rounded-2xl bg-slate-900/60 border border-purple-500/30 space-y-3">
-                                        <h4 className="text-sm font-bold text-purple-400 flex items-center gap-2 border-b border-slate-800 pb-2">
-                                            <span>🛡️</span> פרויקט הנדסי - פרויקט גמר (המכללה הטכנולוגית באר שבע)
+                                    <div className="p-5 rounded-2xl border space-y-3 transition-colors duration-300"
+                                        style={{
+                                            backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
+                                            borderColor: theme === 'light' ? '#cbd5e1' : 'rgba(168, 85, 247, 0.3)'
+                                        }}
+                                    >
+                                        <h4 className="text-sm font-bold flex items-center gap-2 border-b pb-2"
+                                            style={{ color: theme === 'light' ? '#7c3aed' : '#c084fc', borderColor: theme === 'light' ? '#e2e8f0' : '#1e293b' }}
+                                        >
+                                            <span>🛡️</span> {cv.projectHeader.replace('🛡️ ', '')}
                                         </h4>
-                                        <div className="space-y-2 text-xs text-slate-300">
-                                            <p className="font-bold text-white text-sm">מערכת אבטחה לחדר נקי (מערכת משובצת מחשב)</p>
-                                            <ul className="list-disc list-inside space-y-1 text-slate-300">
-                                                <li>תכנון ופיתוח מערכת אבטחה מרובת-שלבים המבוססת על מיקרו-בקר C8051F380 בשפת C51.</li>
-                                                <li>אינטגרציה מלאה של שלושה מנגנוני אימות: קוד אישי (Keypad), תגי RFID וזיהוי פנים מבוסס אלגוריתמי AI בסביבת MATLAB.</li>
-                                                <li>מימוש תקשורת UART לחיבור וסנכרון הנתונים בין המחשב למיקרו-בקר.</li>
-                                                <li>תכנון, איתור תקלות (Debugging) וכתיבת פונקציות בקרה לתגובת זמן-אמת של המערכת, תפעול מנועי SERVO, חיווי על גבי צג LCD1602 וחיווי קולי.</li>
+                                        <div className="space-y-2 text-xs">
+                                            <p className="font-bold text-sm" style={{ color: theme === 'light' ? '#0f172a' : '#ffffff' }}>{cv.projectName}</p>
+                                            <ul className="list-disc list-inside space-y-1" style={{ color: theme === 'light' ? '#1e293b' : '#cbd5e1' }}>
+                                                {cv.projectBullets.map((bullet, idx) => (
+                                                    <li key={idx}>{bullet}</li>
+                                                ))}
                                             </ul>
                                         </div>
                                     </div>
 
                                     {/* Professional Experience */}
-                                    <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
-                                        <h4 className="text-sm font-bold text-amber-400 flex items-center gap-2 border-b border-slate-800 pb-2">
-                                            <span>💼</span> ניסיון מקצועי
+                                    <div className="p-5 rounded-2xl border space-y-3 transition-colors duration-300"
+                                        style={{
+                                            backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
+                                            borderColor: theme === 'light' ? '#cbd5e1' : '#1e293b'
+                                        }}
+                                    >
+                                        <h4 className="text-sm font-bold flex items-center gap-2 border-b pb-2"
+                                            style={{ color: theme === 'light' ? '#d97706' : '#fbbf24', borderColor: theme === 'light' ? '#e2e8f0' : '#1e293b' }}
+                                        >
+                                            <span>💼</span> {cv.expHeader.replace('💼 ', '')}
                                         </h4>
-                                        <div className="space-y-4 text-xs text-slate-300">
+                                        <div className="space-y-4 text-xs">
                                             <div className="space-y-1">
-                                                <div className="flex justify-between font-bold text-white">
-                                                    <span>מדריך ומפתח תוכניות לימוד בתחומי ה-STEM וה-Makers</span>
-                                                    <span className="text-amber-400/80 code-font">(בחוזה עד אמצע ינואר 2027)</span>
+                                                <div className="flex justify-between font-bold">
+                                                    <span style={{ color: theme === 'light' ? '#0f172a' : '#ffffff' }}>{cv.exp1Title}</span>
+                                                    <span className="code-font" style={{ color: theme === 'light' ? '#b45309' : '#fbbf24' }}>{cv.exp1Date}</span>
                                                 </div>
-                                                <ul className="list-disc list-inside space-y-1 text-slate-400">
-                                                    <li>הנחיית סדנאות מעשיות (Makers) בתחומי האלקטרוניקה, תכנון והדפסה בתלת-ממד, עבודה עם חורטת לייזר בעץ.</li>
-                                                    <li>הנגשת תפיסות הנדסיות וטכנולוגיות מורכבות למגוון קהלי יעד.</li>
+                                                <ul className="list-disc list-inside space-y-1" style={{ color: theme === 'light' ? '#475569' : '#94a3b8' }}>
+                                                    {cv.exp1Bullets.map((b, idx) => (
+                                                        <li key={idx}>{b}</li>
+                                                    ))}
                                                 </ul>
                                             </div>
 
-                                            <div className="space-y-1 border-t border-slate-800/60 pt-3">
-                                                <div className="flex justify-between font-bold text-white">
-                                                    <span>מנהל צוות תחזוקה | חברה למערכות סולאריות</span>
+                                            <div className="space-y-1 border-t pt-3" style={{ borderColor: theme === 'light' ? '#e2e8f0' : 'rgba(30, 41, 59, 0.6)' }}>
+                                                <div className="flex justify-between font-bold">
+                                                    <span style={{ color: theme === 'light' ? '#0f172a' : '#ffffff' }}>{cv.exp2Title}</span>
                                                 </div>
-                                                <ul className="list-disc list-inside space-y-1 text-slate-400">
-                                                    <li>איתור ופתרון תקלות טכניות מורכבות בשטח.</li>
-                                                    <li>ניהול צוות, תיעדוף משימות תחזוקה מונעת ושוטפת, ואחריות על תפעול תקין.</li>
+                                                <ul className="list-disc list-inside space-y-1" style={{ color: theme === 'light' ? '#475569' : '#94a3b8' }}>
+                                                    {cv.exp2Bullets.map((b, idx) => (
+                                                        <li key={idx}>{b}</li>
+                                                    ))}
                                                 </ul>
                                             </div>
                                         </div>
@@ -794,51 +1042,57 @@
 
                                     {/* Education & Military */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
-                                            <h4 className="text-sm font-bold text-emerald-400 border-b border-slate-800 pb-2">🎓 השכלה</h4>
-                                            <div className="space-y-1.5 text-xs text-slate-300">
-                                                <p>• <strong>דיפלומת הנדסאי אלקטרוניקה (מחשבים):</strong> המכללה הטכנולוגית באר שבע (2025–2026)</p>
-                                                <p>• <strong>תואר ראשון (.B.Ed.) בחינוך והוראה:</strong> מכללת אורות ישראל (2018–2022)</p>
-                                                <p>• <strong>קורס Full Stack Web Development:</strong> מכללת SVcollege ברחובות (2023)</p>
+                                        <div className="p-5 rounded-2xl border space-y-2 transition-colors duration-300"
+                                            style={{
+                                                backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
+                                                borderColor: theme === 'light' ? '#cbd5e1' : '#1e293b'
+                                            }}
+                                        >
+                                            <h4 className="text-sm font-bold border-b pb-2" style={{ color: theme === 'light' ? '#059669' : '#34d399', borderColor: theme === 'light' ? '#e2e8f0' : '#1e293b' }}>{cv.eduHeader}</h4>
+                                            <div className="space-y-1.5 text-xs" style={{ color: theme === 'light' ? '#1e293b' : '#cbd5e1' }}>
+                                                <p>{cv.edu1}</p>
+                                                <p>{cv.edu2}</p>
+                                                <p>{cv.edu3}</p>
                                             </div>
                                         </div>
 
-                                        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
-                                            <h4 className="text-sm font-bold text-cyan-400 border-b border-slate-800 pb-2">🎖️ שירות צבאי</h4>
-                                            <div className="space-y-1.5 text-xs text-slate-300">
-                                                <p>• <strong>שירות מילואים:</strong> שירות מילואים פעיל ומבצעי בגדוד 84, חטיבת גבעתי.</p>
-                                                <p>• <strong>שירות סדיר:</strong> גדוד 405, חיל התותחנים.</p>
+                                        <div className="p-5 rounded-2xl border space-y-2 transition-colors duration-300"
+                                            style={{
+                                                backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
+                                                borderColor: theme === 'light' ? '#cbd5e1' : '#1e293b'
+                                            }}
+                                        >
+                                            <h4 className="text-sm font-bold border-b pb-2" style={{ color: theme === 'light' ? '#0284c7' : '#22d3ee', borderColor: theme === 'light' ? '#e2e8f0' : '#1e293b' }}>{cv.milHeader}</h4>
+                                            <div className="space-y-1.5 text-xs" style={{ color: theme === 'light' ? '#1e293b' : '#cbd5e1' }}>
+                                                <p>{cv.mil1}</p>
+                                                <p>{cv.mil2}</p>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                {/* Modal Footer */}
-                                <div className="p-3 bg-slate-900/90 border-t border-slate-800 text-center text-[11px] text-slate-400 code-font">
-                                    🔒 מסמך קורות חיים מאובטח לצפייה ישירה בלבד.
+                                <div className="p-3 border-t text-center text-[11px] code-font transition-colors duration-300"
+                                    style={{
+                                        backgroundColor: theme === 'light' ? '#f1f5f9' : 'rgba(15, 23, 42, 0.9)',
+                                        borderColor: theme === 'light' ? '#cbd5e1' : '#1e293b',
+                                        color: theme === 'light' ? '#475569' : '#94a3b8'
+                                    }}
+                                >
+                                    {t.cvModalNotice}
                                 </div>
                             </div>
                         </div>
                     )}
 
-                    {/* FOOTER */}
                     <footer className="border-t border-slate-800/80 bg-slate-950/80 py-8 px-4 text-center text-xs text-slate-500 code-font">
                         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                             <div>
                                 © {new Date().getFullYear()} ELAD PEREG. DESIGNED WITH REACT & TAILWIND.
                             </div>
-                            <div className="flex gap-4 text-slate-400">
-                                <a href="#about" className="hover:text-cyan-400 transition">TOP</a>
-                                <span>•</span>
-                                <a href="#apps" className="hover:text-cyan-400 transition">APPS</a>
-                                <span>•</span>
-                                <a href="#capstone" className="hover:text-cyan-400 transition">CAPSTONE</a>
-                            </div>
                         </div>
                     </footer>
 
-                    {/* Canvas Floating Nodes Background */}
                     <ParticleCanvas />
 
                 </div>
