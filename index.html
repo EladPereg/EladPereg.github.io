@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>אלעד פרג | פורטפוליו פיוצ'ריסטי & פרויקטים</title>
 
+    <!-- Custom Tech Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f0ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='4' width='16' height='16' rx='2' ry='2'></rect><rect x='9' y='9' width='6' height='6'></rect><line x1='9' y1='1' x2='9' y2='4'></line><line x1='15' y1='1' x2='15' y2='4'></line><line x1='9' y1='20' x2='9' y2='23'></line><line x1='15' y1='20' x2='15' y2='23'></line><line x1='20' y1='9' x2='23' y2='9'></line><line x1='20' y1='15' x2='23' y2='15'></line><line x1='1' y1='9' x2='4' y2='9'></line><line x1='1' y1='15' x2='4' y2='15'></line></svg>">
+
     <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -39,7 +42,7 @@
             font-family: 'Fira Code', monospace;
         }
 
-        /* Glassmorphism Styles */
+        /* Glassmorphism Styles & Enhanced Neon Glow */
         .glass-card {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(16px);
@@ -50,8 +53,8 @@
         }
 
         .glass-card:hover {
-            border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15), 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), 0 8px 32px 0 rgba(0, 0, 0, 0.4);
             transform: translateY(-4px);
         }
 
@@ -63,15 +66,15 @@
 
         /* Glowing Neon Effects */
         .glow-cyan {
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
         }
 
         .text-glow-cyan {
-            text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
         }
 
         .text-glow-pink {
-            text-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.7);
         }
 
         /* Keyframe Animations */
@@ -111,6 +114,7 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #00f0ff;
+            box-shadow: 0 0 10px #00f0ff;
         }
 
         .hex-bg {
@@ -213,6 +217,9 @@
 
         function App() {
             const [activeSlide, setActiveSlide] = useState(0);
+            const [isCvOpen, setIsCvOpen] = useState(false);
+            const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+            const [formStatus, setFormStatus] = useState(null);
 
             useEffect(() => {
                 if (window.lucide) {
@@ -228,6 +235,37 @@
                         origin: { y: 0.8 },
                         colors: ['#00f0ff', '#a855f7', '#ec4899', '#f59e0b']
                     });
+                }
+            };
+
+            const handleContactSubmit = async (e) => {
+                e.preventDefault();
+                setFormStatus('sending');
+
+                try {
+                    const response = await fetch('https://formspree.io/f/mwlvyjyl', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: contactForm.name,
+                            email: contactForm.email,
+                            message: contactForm.message
+                        })
+                    });
+
+                    if (response.ok) {
+                        setFormStatus('success');
+                        setContactForm({ name: '', email: '', message: '' });
+                        triggerConfetti();
+                        setTimeout(() => setFormStatus(null), 6000);
+                    } else {
+                        setFormStatus('error');
+                    }
+                } catch (err) {
+                    setFormStatus('error');
                 }
             };
 
@@ -251,13 +289,13 @@
                     <header className="fixed top-0 left-0 right-0 z-50 glass-nav px-4 md:px-8 py-3.5">
                         <div className="max-w-7xl mx-auto flex items-center justify-between">
                             <a href="#" className="flex items-center gap-3 group">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/50 transition">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:shadow-[0_0_25px_rgba(0,240,255,0.7)] transition">
                                     <div className="w-full h-full bg-slate-950 rounded-[11px] flex items-center justify-center font-black text-cyan-400 text-lg code-font">
                                         EP
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="font-extrabold text-lg text-white tracking-wide group-hover:text-cyan-400 transition">
+                                    <span className="font-extrabold text-lg text-white tracking-wide group-hover:text-cyan-400 transition text-glow-cyan">
                                         אלעד פרג
                                     </span>
                                     <span className="text-[10px] text-cyan-400/80 code-font tracking-widest uppercase">
@@ -267,31 +305,42 @@
                             </a>
 
                             <nav className="hidden md:flex items-center gap-8 text-sm font-semibold">
-                                <a href="#about" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5">
+                                <a href="#about" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
                                     <span className="text-cyan-500 code-font">//</span> אודותיי
                                 </a>
-                                <a href="#apps" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5">
+                                <a href="#apps" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
                                     <span className="text-cyan-500 code-font">//</span> אפליקציות
                                 </a>
-                                <a href="#capstone" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5">
+                                <a href="#capstone" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
                                     <span className="text-cyan-500 code-font">//</span> פרויקט גמר
                                 </a>
-                                <a href="#skills" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5">
+                                <a href="#skills" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
                                     <span className="text-cyan-500 code-font">//</span> כישורים
+                                </a>
+                                <a href="#contact" className="text-slate-300 hover:text-cyan-400 transition flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
+                                    <span className="text-cyan-500 code-font">//</span> צור קשר
                                 </a>
                             </nav>
 
-                            <a 
-                                href="https://github.com/EladPereg" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="relative inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-cyan-300 transition duration-300 bg-cyan-950/40 border border-cyan-500/40 rounded-xl hover:bg-cyan-500 hover:text-slate-950 hover:shadow-[0_0_20px_rgba(0,240,255,0.6)]"
-                            >
-                                <span className="relative flex items-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                                    GitHub Profile
-                                </span>
-                            </a>
+                            <div className="flex items-center gap-3">
+                                <button 
+                                    onClick={() => setIsCvOpen(true)}
+                                    className="relative inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-purple-300 transition duration-300 bg-purple-950/40 border border-purple-500/40 rounded-xl hover:bg-purple-600 hover:text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.7)]"
+                                >
+                                    📄 צפייה בקורות חיים
+                                </button>
+                                <a 
+                                    href="https://github.com/EladPereg" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-cyan-300 transition duration-300 bg-cyan-950/40 border border-cyan-500/40 rounded-xl hover:bg-cyan-500 hover:text-slate-950 hover:shadow-[0_0_20px_rgba(0,240,255,0.7)]"
+                                >
+                                    <span className="relative flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                                        GitHub Profile
+                                    </span>
+                                </a>
+                            </div>
                         </div>
                     </header>
 
@@ -309,7 +358,7 @@
                                 <div className="space-y-3">
                                     <h1 className="text-4xl sm:text-6xl font-black text-white leading-tight">
                                         מחברים בין <br />
-                                        <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+                                        <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent text-glow-cyan">
                                             חומרה, תוכנה וחינוך טכנולוגי
                                         </span>
                                     </h1>
@@ -322,13 +371,13 @@
                                     <a 
                                         href="#apps" 
                                         onClick={triggerConfetti}
-                                        className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-extrabold text-sm shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105 transition duration-300 flex items-center gap-2"
+                                        className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-extrabold text-sm shadow-lg shadow-cyan-500/25 hover:shadow-[0_0_25px_rgba(0,240,255,0.7)] hover:scale-105 transition duration-300 flex items-center gap-2"
                                     >
                                         <span>🚀</span> צפה באפליקציות
                                     </a>
                                     <a 
                                         href="#capstone" 
-                                        className="px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-200 font-bold text-sm hover:text-cyan-300 transition duration-300 flex items-center gap-2"
+                                        className="px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] text-slate-200 font-bold text-sm hover:text-cyan-300 transition duration-300 flex items-center gap-2"
                                     >
                                         <span>🛡️</span> פרויקט הגמר
                                     </a>
@@ -358,7 +407,7 @@
                             </div>
                         </section>
 
-                        {/* SEPARATED ABOUT SECTIONS: DEV VS MAKERS + CENTERED SOLAR CARD */}
+                        {/* ABOUT SECTIONS */}
                         <section className="space-y-8">
                             <div className="text-right space-y-2">
                                 <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
@@ -398,7 +447,6 @@
                                     </div>
                                 </div>
 
-                                {/* כרטיס שלישי: ניהול תחזוקה סולארית (ממורכז בדיוק באמצע מתחת לשניים האחרים) */}
                                 <div className="md:col-span-2 max-w-xl mx-auto w-full">
                                     <div className="glass-card rounded-3xl p-7 space-y-4 border border-emerald-500/20 relative overflow-hidden group">
                                         <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-2xl text-emerald-400">
@@ -418,7 +466,7 @@
                             </div>
                         </section>
 
-                        {/* STANDALONE APPS SHOWCASE & GITHUB BANNER */}
+                        {/* APPS SHOWCASE */}
                         <section id="apps" className="space-y-8">
                             <div className="text-right space-y-2">
                                 <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
@@ -428,7 +476,6 @@
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* כרטיס 1: מחשבון שכר */}
                                 <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
                                     <div className="space-y-3">
                                         <div className="flex justify-between items-center">
@@ -445,7 +492,7 @@
                                             href="https://eladpereg.github.io/salary-calculator/" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.5)] transition duration-300"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
                                         >
                                             <span>🚀</span>
                                             <span>לחץ כאן פתיחת האפליקציה בלייב</span>
@@ -453,7 +500,6 @@
                                     </div>
                                 </div>
 
-                                {/* כרטיס 2: מחשבון פוקר */}
                                 <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
                                     <div className="space-y-3">
                                         <div className="flex justify-between items-center">
@@ -470,7 +516,7 @@
                                             href="https://eladpereg.github.io/poker_calculator/" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.5)] transition duration-300"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
                                         >
                                             <span>🚀</span>
                                             <span>לחץ כאן פתיחת האפליקציה בלייב</span>
@@ -478,7 +524,6 @@
                                     </div>
                                 </div>
 
-                                {/* כרטיס 3: סודוקו */}
                                 <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
                                     <div className="space-y-3">
                                         <div className="flex justify-between items-center">
@@ -495,7 +540,7 @@
                                             href="#" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.5)] transition duration-300"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
                                         >
                                             <span>🚀</span>
                                             <span>לחץ כאן פתיחת האפליקציה בלייב</span>
@@ -503,7 +548,6 @@
                                     </div>
                                 </div>
 
-                                {/* כרטיס 4: איקס עיגול */}
                                 <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
                                     <div className="space-y-3">
                                         <div className="flex justify-between items-center">
@@ -520,7 +564,7 @@
                                             href="#" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.5)] transition duration-300"
+                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
                                         >
                                             <span>🚀</span>
                                             <span>לחץ כאן פתיחת האפליקציה בלייב</span>
@@ -539,7 +583,7 @@
                                     href="https://github.com/EladPereg" 
                                     target="_blank" 
                                     rel="noopener noreferrer"
-                                    className="bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 hover:to-teal-300 text-slate-950 font-black px-6 py-3.5 rounded-xl transition shadow-lg whitespace-nowrap text-sm"
+                                    className="bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 hover:to-teal-300 text-slate-950 font-black px-6 py-3.5 rounded-xl transition shadow-[0_0_20px_rgba(0,240,255,0.4)] whitespace-nowrap text-sm"
                                 >
                                     ⚡ מעבר לעמוד ה-GitHub שלי
                                 </a>
@@ -609,13 +653,11 @@
                                     </div>
                                 </div>
 
-                                {/* Interactive Project Image Carousel / Slider */}
+                                {/* Image Carousel */}
                                 <div className="space-y-4 pt-2">
                                     <h4 className="text-lg font-bold text-white text-right">🖼️ גלריית תמונות מהפרויקט:</h4>
                                     
                                     <div className="relative glass-card rounded-3xl p-6 border border-purple-500/30 overflow-hidden group">
-                                        
-                                        {/* Image Box */}
                                         <div className="h-64 sm:h-96 rounded-2xl bg-slate-950/80 border border-slate-800 flex flex-col items-center justify-center relative overflow-hidden">
                                             <img 
                                                 src={
@@ -626,13 +668,11 @@
                                                 alt="תמונת פרויקט גמר" 
                                                 className="w-full h-full object-contain p-2 transition-opacity duration-500"
                                             />
-
                                             <div className="absolute top-4 left-4 text-xs font-mono bg-slate-900/90 px-3 py-1 rounded-full border border-purple-500/40 text-purple-300">
                                                 {activeSlide + 1} / 3
                                             </div>
                                         </div>
 
-                                        {/* Caption Below Image */}
                                         <div className="text-center pt-4 space-y-1">
                                             <h5 className="text-base font-bold text-white">
                                                 {activeSlide === 0 && 'תרשים ארכיטקטורה מקיף - מערכת C8051F380'}
@@ -646,7 +686,6 @@
                                             </p>
                                         </div>
 
-                                        {/* Navigation Arrows */}
                                         <button 
                                             onClick={() => setActiveSlide((prev) => (prev === 0 ? 2 : prev - 1))}
                                             className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/80 border border-purple-500/40 text-purple-300 flex items-center justify-center hover:bg-purple-600 hover:text-white transition shadow-lg opacity-80 group-hover:opacity-100 z-10"
@@ -663,7 +702,6 @@
                                             ❮
                                         </button>
 
-                                        {/* Bottom Dots Indicators */}
                                         <div className="flex justify-center items-center gap-2 mt-4">
                                             {[0, 1, 2].map((idx) => (
                                                 <button
@@ -678,7 +716,6 @@
                                                 />
                                             ))}
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -708,10 +745,10 @@
                             </div>
                         </section>
 
-                        {/* CONTACT SECTION */}
+                        {/* CONTACT SECTION WITH LIVE FORMSPREE */}
                         <section id="contact" className="pt-6">
-                            <div className="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden text-center space-y-8 border-cyan-500/30">
-                                <div className="max-w-2xl mx-auto space-y-4">
+                            <div className="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden space-y-8 border-cyan-500/30">
+                                <div className="max-w-2xl mx-auto text-center space-y-4">
                                     <div className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
                                         ● CONNECT WITH ELAD PEREG
                                     </div>
@@ -719,24 +756,81 @@
                                         רוצים ליצור פרויקט יחד?
                                     </h2>
                                     <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                                        מוזמנים לפנות אלי לכל שאלה, שיתוף פעולה טכנולוגי, פיתוח מערכות או ייעוץ.
+                                        מוזמנים לפנות אלי לכל שאלה, שיתוף פעולה טכנולוגי, פיתוח מערכות או ייעוץ באמצעות הטופס או וואטסאפ.
                                     </p>
                                 </div>
 
-                                <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+                                <form onSubmit={handleContactSubmit} className="max-w-xl mx-auto space-y-4 text-right">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="space-y-1">
+                                            <label className="text-xs text-slate-300 font-bold">שם מלא</label>
+                                            <input 
+                                                type="text" 
+                                                required
+                                                value={contactForm.name}
+                                                onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
+                                                placeholder="הכנס את שמך"
+                                                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition"
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-xs text-slate-300 font-bold">כתובת אימייל</label>
+                                            <input 
+                                                type="email" 
+                                                required
+                                                value={contactForm.email}
+                                                onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                                                placeholder="name@example.com"
+                                                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-xs text-slate-300 font-bold">הודעה</label>
+                                        <textarea 
+                                            rows="4" 
+                                            required
+                                            value={contactForm.message}
+                                            onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                                            placeholder="כתוב לי כאן את ההודעה..."
+                                            className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition resize-none"
+                                        ></textarea>
+                                    </div>
+                                    <button 
+                                        type="submit"
+                                        disabled={formStatus === 'sending'}
+                                        className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/20 hover:shadow-[0_0_25px_rgba(0,240,255,0.7)] hover:scale-[1.01] transition duration-300 flex items-center justify-center gap-2"
+                                    >
+                                        {formStatus === 'sending' ? 'שולח הודעה...' : '✉️ שליחת הודעה'}
+                                    </button>
+
+                                    {formStatus === 'success' && (
+                                        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-center text-xs">
+                                            ההודעה נשלחה בהצלחה! אצור איתך קשר בהקדם.
+                                        </div>
+                                    )}
+
+                                    {formStatus === 'error' && (
+                                        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-center text-xs">
+                                            אירעה שגיאה בשליחה. אנא נסה שנית או פנה אליי בוואטסאפ.
+                                        </div>
+                                    )}
+                                </form>
+
+                                <div className="flex flex-wrap items-center justify-center gap-4 pt-4 border-t border-slate-800/80">
                                     <a 
                                         href="https://api.whatsapp.com/send?phone=972500000000" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        className="px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/20 hover:scale-105 transition duration-300 flex items-center gap-2"
+                                        className="px-6 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500 hover:text-slate-950 font-bold text-xs transition duration-300 flex items-center gap-2"
                                     >
-                                        <span>💬</span> שלח הודעת WhatsApp
+                                        <span>💬</span> פנייה מהירה בוואטסאפ
                                     </a>
                                     <a 
                                         href="https://github.com/EladPereg" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        className="px-8 py-4 rounded-2xl bg-slate-900 border border-slate-700 hover:border-cyan-400 text-white font-bold text-sm hover:scale-105 transition duration-300 flex items-center gap-2"
+                                        className="px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 text-white font-bold text-xs transition duration-300 flex items-center gap-2"
                                     >
                                         <span>💻</span> פרופיל GitHub
                                     </a>
@@ -745,6 +839,51 @@
                         </section>
 
                     </main>
+
+                    {/* CV VIEW MODAL (VIEW ONLY - NO DOWNLOAD) */}
+                    {isCvOpen && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+                            <div className="glass-card rounded-3xl w-full max-w-4xl h-[85vh] flex flex-col border border-purple-500/40 shadow-[0_0_50px_rgba(168,85,247,0.3)] overflow-hidden relative">
+                                <div className="flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/90">
+                                    <div className="flex items-center gap-2">
+                                        <span className="w-3 h-3 rounded-full bg-purple-500 animate-pulse"></span>
+                                        <h3 className="font-bold text-white text-sm">קורות חיים – אלעד פרג (צפייה בלבד)</h3>
+                                    </div>
+                                    <button 
+                                        onClick={() => setIsCvOpen(false)}
+                                        className="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:bg-red-500 hover:text-white flex items-center justify-center transition"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                                <div 
+                                    className="flex-1 bg-slate-950 p-6 overflow-y-auto select-none"
+                                    onContextMenu={(e) => e.preventDefault()}
+                                >
+                                    <div className="max-w-2xl mx-auto space-y-6 text-right bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
+                                        <div className="border-b border-slate-800 pb-4">
+                                            <h2 className="text-2xl font-black text-cyan-400">אלעד פרג</h2>
+                                            <p className="text-xs text-slate-400 code-font">Full Stack Developer | Embedded Engineer | Maker Instructor</p>
+                                        </div>
+                                        <div className="space-y-2 text-xs text-slate-300">
+                                            <h4 className="font-bold text-purple-400">השכלה:</h4>
+                                            <p>• תואר ראשון בהוראה (B.Ed) – מכללת אורות ישראל.</p>
+                                            <p>• בוגר קורס Full Stack Web Development – SVcollege רחובות.</p>
+                                            <p>• הנדסאי אלקטרוניקה בהתמחות מחשבים – המכללה הטכנולוגית באר שבע.</p>
+                                        </div>
+                                        <div className="space-y-2 text-xs text-slate-300">
+                                            <h4 className="font-bold text-purple-400">ניסיון מקצועי:</h4>
+                                            <p>• מנהל צוות תחזוקה למערכות אנרגיה סולארית.</p>
+                                            <p>• מדריך קורסי Maker ו-STEM לתלמידי חטיבות היסודי והביניים.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="p-3 bg-slate-900/90 border-t border-slate-800 text-center text-[11px] text-slate-400">
+                                    מסמך זה מוגן לצפייה ישירה בלבד.
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* FOOTER */}
                     <footer className="border-t border-slate-800/80 bg-slate-950/80 py-8 px-4 text-center text-xs text-slate-500 code-font">
