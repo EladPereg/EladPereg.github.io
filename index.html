@@ -73,8 +73,8 @@
             text-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
         }
 
-        .text-glow-pink {
-            text-shadow: 0 0 15px rgba(236, 72, 153, 0.7);
+        .text-glow-purple {
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
         }
 
         /* Keyframe Animations */
@@ -130,7 +130,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Interactive Animated Canvas Background (Nodes/Grid Particles)
+        // Interactive Animated Canvas Background
         const ParticleCanvas = () => {
             const canvasRef = useRef(null);
 
@@ -325,9 +325,9 @@
                             <div className="flex items-center gap-3">
                                 <button 
                                     onClick={() => setIsCvOpen(true)}
-                                    className="relative inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-purple-300 transition duration-300 bg-purple-950/40 border border-purple-500/40 rounded-xl hover:bg-purple-600 hover:text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.7)]"
+                                    className="relative inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-purple-300 transition duration-300 bg-purple-950/50 border border-purple-500/50 rounded-xl hover:bg-purple-600 hover:text-white hover:shadow-[0_0_25px_rgba(168,85,247,0.8)]"
                                 >
-                                    📄 צפייה בקורות חיים
+                                    📄 קורות חיים
                                 </button>
                                 <a 
                                     href="https://github.com/EladPereg" 
@@ -352,18 +352,18 @@
                             <div className="flex-1 space-y-6 text-right">
                                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-mono tracking-wide">
                                     <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                                    מפתח תוכנה, מנהל תחזוקה ומדריך Makers
+                                    הנדסאי אלקטרוניקה | מפתח תוכנה | מדריך STEM & Makers
                                 </div>
 
                                 <div className="space-y-3">
                                     <h1 className="text-4xl sm:text-6xl font-black text-white leading-tight">
                                         מחברים בין <br />
                                         <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent text-glow-cyan">
-                                            חומרה, תוכנה וחינוך טכנולוגי
+                                            חומרה, תוכנה וחדשנות
                                         </span>
                                     </h1>
                                     <p className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl font-normal">
-                                        מנהל צוות תחזוקה בתחום האנרגיה הסולארית, בעל תואר ראשון בהוראה (B.Ed), בוגר קורס Full Stack והנדסאי אלקטרוניקה. משלב בין עולמות הפיתוח, החומרה וההדרכה הטכנולוגית.
+                                        הנדסאי אלקטרוניקה (התמחות במחשבים) בעל רקע עשיר בפיתוח מערכות משובצות מחשב (Embedded Systems), תכנות מיקרו-בקרים, Full Stack והוראת טכנולוגיה.
                                     </p>
                                 </div>
 
@@ -375,12 +375,12 @@
                                     >
                                         <span>🚀</span> צפה באפליקציות
                                     </a>
-                                    <a 
-                                        href="#capstone" 
-                                        className="px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] text-slate-200 font-bold text-sm hover:text-cyan-300 transition duration-300 flex items-center gap-2"
+                                    <button 
+                                        onClick={() => setIsCvOpen(true)}
+                                        className="px-6 py-3.5 rounded-xl bg-purple-900/40 border border-purple-500/40 hover:border-purple-400 text-purple-200 font-bold text-sm hover:text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition duration-300 flex items-center gap-2"
                                     >
-                                        <span>🛡️</span> פרויקט הגמר
-                                    </a>
+                                        <span>📜</span> פתח קורות חיים מלאים
+                                    </button>
                                 </div>
                             </div>
 
@@ -399,8 +399,8 @@
                                     <div className="code-font text-xs space-y-2 text-slate-300 leading-relaxed">
                                         <p><span className="text-purple-400">const</span> <span className="text-cyan-300">expert</span> = &#123;</p>
                                         <p className="pl-4"><span className="text-pink-400">name</span>: <span className="text-emerald-300">'אלעד פרג'</span>,</p>
-                                        <p className="pl-4"><span className="text-pink-400">role</span>: <span className="text-emerald-300">'Full Stack & Embedded'</span>,</p>
-                                        <p className="pl-4"><span className="text-pink-400">focus</span>: [<span className="text-amber-300">'React'</span>, <span className="text-amber-300">'C'</span>, <span className="text-amber-300">'Solar'</span>]</p>
+                                        <p className="pl-4"><span className="text-pink-400">degree</span>: <span className="text-emerald-300">'הנדסאי אלקטרוניקה'</span>,</p>
+                                        <p className="pl-4"><span className="text-pink-400">skills</span>: [<span className="text-amber-300">'Embedded C'</span>, <span className="text-amber-300">'React'</span>, <span className="text-amber-300">'VHDL'</span>]</p>
                                         <p>&#125;;</p>
                                     </div>
                                 </div>
@@ -413,7 +413,7 @@
                                 <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
                                     <span className="text-cyan-400">👨‍💻</span> אודותיי וניסיון מקצועי
                                 </h2>
-                                <p className="text-slate-400 text-xs">שילוב בין עולמות הפיתוח, החומרה וההדרכה</p>
+                                <p className="text-slate-400 text-xs">שילוב בין עולמות החומרה, התוכנה וההדרכה</p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -421,14 +421,14 @@
                                     <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-2xl text-cyan-400">
                                         💻
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white">פיתוח תוכנה והנדסת מערכות</h3>
+                                    <h3 className="text-2xl font-bold text-white">Embedded & פיתוח תוכנה</h3>
                                     <p className="text-slate-300 text-sm leading-relaxed">
-                                        בעל ניסיון עשיר בפיתוח אפליקציות Full Stack, כתיבת קוד למערכות מבוססות מיקרו-בקרים (C, C51, VHDL) ודיגיטציה של תהליכים. דגש רב על חווית משתמש נקייה, ארכיטקטורת קוד יעילה ופתרון תקלות מורכבות במערכות משולבות.
+                                        פיתוח מערכות משובצות מחשב, אינטגרציית חומרה-תוכנה, תכנון מעגלים ואיתור תקלות מעבדתי (Debugging). כתיבת קוד ב-C51, VHDL, Python ופיתוח אפליקציות Full Stack.
                                     </p>
                                     <div className="flex flex-wrap gap-2 pt-2">
-                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">React & Web</span>
-                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">Embedded C / VHDL</span>
-                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">MATLAB</span>
+                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">Embedded C / C51</span>
+                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">C8051F380</span>
+                                        <span className="text-xs bg-slate-900/80 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded-lg">VHDL & MATLAB</span>
                                     </div>
                                 </div>
 
@@ -436,14 +436,14 @@
                                     <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl text-purple-400">
                                         🚀
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white">הדרכת Makers & STEM</h3>
+                                    <h3 className="text-2xl font-bold text-white">הדרכה ופיתוח STEM & Makers</h3>
                                     <p className="text-slate-300 text-sm leading-relaxed">
-                                        הנחיה ופיתוח תכניות לימוד הנדסיות לתלמידי כיתות ה'-ח'. פיתוח אתגרים מעשיים במידול בתלת-ממד (Tinkercad & OpenSCAD), מעגלים אלקטרוניים, הדפסת 3D וזרועות מכניות, תוך הדגשת חשיבה יצירתית ופתרון בעיות.
+                                        פיתוח תכניות לימוד והנחיית סדנאות מעשיות באלקטרוניקה, מידול והדפסה בתלת-ממד, חורטת לייזר בעץ והנגשת תפיסות הנדסיות מורכבות.
                                     </p>
                                     <div className="flex flex-wrap gap-2 pt-2">
-                                        <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">מידול 3D & Tinkercad</span>
+                                        <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">מידול 3D & לייזר</span>
                                         <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">מעגלים ואלקטרוניקה</span>
-                                        <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">הדרכת נוער</span>
+                                        <span className="text-xs bg-slate-900/80 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-lg">הדרכת STEM</span>
                                     </div>
                                 </div>
 
@@ -452,14 +452,14 @@
                                         <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-2xl text-emerald-400">
                                             ☀️
                                         </div>
-                                        <h3 className="text-2xl font-bold text-white">ניהול תחזוקה באנרגיה סולארית</h3>
+                                        <h3 className="text-2xl font-bold text-white">ניהול תחזוקה - מערכות סולאריות</h3>
                                         <p className="text-slate-300 text-sm leading-relaxed">
-                                            ניסיון מעשי כמנהל צוות תחזוקה של מערכות סולאריות. אחריות על תפעול שוטף, איתור ופתרון תקלות מורכבות במערכות אנרגיה, וניהול צוות עובדים בשטח.
+                                            איתור ופתרון תקלות טכניות מורכבות בשטח, ניהול צוות, תיעדוף משימות תחזוקה מונעת ושוטפת ואחריות מלאה על תפעול תקין של מערכות סולאריות.
                                         </p>
                                         <div className="flex flex-wrap gap-2 pt-2">
                                             <span className="text-xs bg-slate-900/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-lg">ניהול צוותים</span>
                                             <span className="text-xs bg-slate-900/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-lg">מערכות סולאריות</span>
-                                            <span className="text-xs bg-slate-900/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-lg">פתרון תקלות שטח</span>
+                                            <span className="text-xs bg-slate-900/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-lg">איתור תקלות שטח</span>
                                         </div>
                                     </div>
                                 </div>
@@ -523,70 +523,6 @@
                                         </a>
                                     </div>
                                 </div>
-
-                                <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-xs bg-purple-500/10 border border-purple-500/30 text-purple-300 font-bold px-3 py-1 rounded-lg">Web App</span>
-                                            <span className="text-xs text-slate-400">React + Logic Algorithms</span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-white">משחק סודוקו אינטראקטיבי</h3>
-                                        <p className="text-slate-300 text-sm leading-relaxed">
-                                            משחק סודוקו אינטראקטיבי לבניית חשיבה לוגית. כולל מחולל לוחות ברמות קושי שונות, שמירת מצב המשחק אוטומטית בדפדפן וממשק משתמש חלק ומהיר.
-                                        </p>
-                                    </div>
-                                    <div className="pt-4 border-t border-white/5 text-center">
-                                        <a 
-                                            href="#" 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
-                                        >
-                                            <span>🚀</span>
-                                            <span>לחץ כאן פתיחת האפליקציה בלייב</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className="glass-card rounded-3xl p-6 border border-slate-700/80 space-y-4 flex flex-col justify-between">
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-xs bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-bold px-3 py-1 rounded-lg">Web App</span>
-                                            <span className="text-xs text-slate-400">React + State Management</span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-white">משחק איקס עיגול</h3>
-                                        <p className="text-slate-300 text-sm leading-relaxed">
-                                            גרסה מודרנית ומהנה למשחק הקלאסי איקס עיגול. כוללת מעקב אחר תוצאות הניצחונות, אנימציות חלקות ואפשרות למשחק מהיר מול שחקן נוסף באותו המכשיר.
-                                        </p>
-                                    </div>
-                                    <div className="pt-4 border-t border-white/5 text-center">
-                                        <a 
-                                            href="#" 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-slate-950 font-black text-sm shadow-lg shadow-cyan-500/25 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition duration-300"
-                                        >
-                                            <span>🚀</span>
-                                            <span>לחץ כאן פתיחת האפליקציה בלייב</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* GitHub CTA Banner */}
-                            <div className="glass-card rounded-3xl p-8 border border-cyan-500/30 text-center md:text-right flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-cyan-950/40">
-                                <div className="space-y-2">
-                                    <h3 className="text-2xl font-bold text-white">רוצים לראות אפליקציות ופרויקטים נוספים?</h3>
-                                    <p className="text-slate-400 text-sm">היכנסו לעמוד ה-GitHub שלי לצפייה בקוד המקור, פרויקטים נוספים וקוד פתוח</p>
-                                </div>
-                                <a 
-                                    href="https://github.com/EladPereg" 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 hover:to-teal-300 text-slate-950 font-black px-6 py-3.5 rounded-xl transition shadow-[0_0_20px_rgba(0,240,255,0.4)] whitespace-nowrap text-sm"
-                                >
-                                    ⚡ מעבר לעמוד ה-GitHub שלי
-                                </a>
                             </div>
                         </section>
 
@@ -596,7 +532,7 @@
                                 <h2 className="text-3xl font-black text-white flex items-center justify-start gap-3">
                                     <span className="text-purple-400">🛡️</span> פרויקט הגמר: מערכת אבטחה לחדר נקי
                                 </h2>
-                                <p className="text-slate-400 text-xs">מערכת בקרת כניסה מאובטחת משולבת חומרה, מיקרו-בקר ועיבוד תמונה</p>
+                                <p className="text-slate-400 text-xs">המכללה הטכנולוגית באר שבע | מערכת משובצת מחשב C8051F380</p>
                             </div>
 
                             <div className="glass-card rounded-3xl p-8 border border-purple-500/30 space-y-8">
@@ -604,13 +540,13 @@
                                     <div className="md:col-span-2 space-y-4">
                                         <h3 className="text-2xl font-bold text-white">תקציר הפרויקט והארכיטקטורה</h3>
                                         <p className="text-slate-300 text-sm leading-relaxed">
-                                            פרויקט הנדסי מקיף לפיתוח מערכת אבטחה רב-שכבתית לחדרים נקיים ומעבדות רגישות. המערכת מבוססת על המיקרו-בקר <strong>C8051F380</strong> ומשלבת אימות ביומטרי וטכנולוגי מתקדם:
+                                            תכנון ופיתוח מערכת אבטחה מרובת-שלבים המבוססת על המיקרו-בקר <strong>C8051F380</strong> בשפת C51. המערכת כוללת אינטגרציה מלאה בין שלושה מנגנוני אימות:
                                         </p>
                                         <ul className="text-slate-300 text-sm space-y-2 list-disc list-inside">
-                                            <li><strong>זיהוי פנים ביומטרי (MATLAB):</strong> סריקה וזיהוי תמונה בזמן אמת דרך מצלמה.</li>
-                                            <li><strong>אימות RFID:</strong> סריקת תג עובד מורשה בטכנולוגיית תדר רדיו.</li>
-                                            <li><strong>לוח מקשים (Keypad):</strong> הזנת קוד אבטחה אישי מוצפן.</li>
-                                            <li><strong>משוב קולי וחזותי:</strong> הודעות הקלטה קוליות וחיווי במסך LCD למשתמש.</li>
+                                            <li><strong>זיהוי פנים ביומטרי (MATLAB):</strong> זיהוי פנים מבוסס אלגוריתמי AI בסביבת MATLAB.</li>
+                                            <li><strong>אימות RFID (RDM6300):</strong> סריקת תגי עובד מורשים בטכנולוגיית תדר רדיו.</li>
+                                            <li><strong>לוח מקשים (Keypad 4x4):</strong> הזנת קוד אבטחה מוצפן.</li>
+                                            <li><strong>סנכרון ותקשורת UART:</strong> חיבור וסנכרון נתונים בזמן-אמת בין המחשב למיקרו-בקר.</li>
                                         </ul>
                                     </div>
 
@@ -618,103 +554,10 @@
                                         <h4 className="font-bold text-purple-400 border-b border-slate-800 pb-2">📋 טכנולוגיות ורכיבים</h4>
                                         <div className="space-y-1.5 text-slate-300">
                                             <p>• <strong>Microcontroller:</strong> C8051F380</p>
-                                            <p>• <strong>Image Processing:</strong> MATLAB</p>
-                                            <p>• <strong>Languages:</strong> C / C51</p>
-                                            <p>• <strong>Hardware:</strong> RFID RC522, Keypad, LCD, Voice</p>
-                                            <p>• <strong>IDE:</strong> Keil µVision</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Flow Visualizer */}
-                                <div className="space-y-4">
-                                    <h4 className="text-lg font-bold text-white text-right">תרשים זרימת האבטחה במערכת:</h4>
-                                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-center">
-                                        <div className="bg-slate-900 p-4 rounded-2xl border border-cyan-500/30 space-y-1">
-                                            <div className="text-2xl">📷</div>
-                                            <h5 className="font-bold text-xs text-cyan-400">1. זיהוי פנים</h5>
-                                            <p className="text-[11px] text-slate-400">אימות תמונה ב-MATLAB</p>
-                                        </div>
-                                        <div className="bg-slate-900 p-4 rounded-2xl border border-purple-500/30 space-y-1">
-                                            <div className="text-2xl">🎴</div>
-                                            <h5 className="font-bold text-xs text-purple-400">2. סריקת RFID</h5>
-                                            <p className="text-[11px] text-slate-400">בדיקת הרשאת תג עובד</p>
-                                        </div>
-                                        <div className="bg-slate-900 p-4 rounded-2xl border border-amber-500/30 space-y-1">
-                                            <div className="text-2xl">🔑</div>
-                                            <h5 className="font-bold text-xs text-amber-400">3. הזנת קוד</h5>
-                                            <p className="text-[11px] text-slate-400">אימות סיסמה בלוח מקשים</p>
-                                        </div>
-                                        <div className="bg-slate-900 p-4 rounded-2xl border border-emerald-500/30 space-y-1">
-                                            <div className="text-2xl">🔓</div>
-                                            <h5 className="font-bold text-xs text-emerald-400">4. אישור כניסה</h5>
-                                            <p className="text-[11px] text-slate-400">פתיחת נעילה + חיווי קולי</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Image Carousel */}
-                                <div className="space-y-4 pt-2">
-                                    <h4 className="text-lg font-bold text-white text-right">🖼️ גלריית תמונות מהפרויקט:</h4>
-                                    
-                                    <div className="relative glass-card rounded-3xl p-6 border border-purple-500/30 overflow-hidden group">
-                                        <div className="h-64 sm:h-96 rounded-2xl bg-slate-950/80 border border-slate-800 flex flex-col items-center justify-center relative overflow-hidden">
-                                            <img 
-                                                src={
-                                                    activeSlide === 0 ? 'cleanroom_diagram.png' : 
-                                                    activeSlide === 1 ? 'keypad_entry.png' : 
-                                                    'facial_recognition.png'
-                                                } 
-                                                alt="תמונת פרויקט גמר" 
-                                                className="w-full h-full object-contain p-2 transition-opacity duration-500"
-                                            />
-                                            <div className="absolute top-4 left-4 text-xs font-mono bg-slate-900/90 px-3 py-1 rounded-full border border-purple-500/40 text-purple-300">
-                                                {activeSlide + 1} / 3
-                                            </div>
-                                        </div>
-
-                                        <div className="text-center pt-4 space-y-1">
-                                            <h5 className="text-base font-bold text-white">
-                                                {activeSlide === 0 && 'תרשים ארכיטקטורה מקיף - מערכת C8051F380'}
-                                                {activeSlide === 1 && 'עמדת הזנת קוד אבטחה בלוח מקשים (Keypad 4x4)'}
-                                                {activeSlide === 2 && 'ממשק סריקה וזיהוי פנים ביומטרי (Deep Learning / MATLAB)'}
-                                            </h5>
-                                            <p className="text-xs text-slate-400">
-                                                {activeSlide === 0 && 'דיאגרמת מכלולי החומרה: מיקרו-בקר C8051F380, רכיבי תקשורת UART, חיישנים ונעילת סרוו.'}
-                                                {activeSlide === 1 && 'בקרת כניסה באמצעות לוח מקשים 4x4 ומסך LCD להודעות משוב וחיווי.'}
-                                                {activeSlide === 2 && 'אימות ביומטרי חכם מבוסס מצלמה ועיבוד תמונה בזמן אמת לאישור כניסה מורשית.'}
-                                            </p>
-                                        </div>
-
-                                        <button 
-                                            onClick={() => setActiveSlide((prev) => (prev === 0 ? 2 : prev - 1))}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/80 border border-purple-500/40 text-purple-300 flex items-center justify-center hover:bg-purple-600 hover:text-white transition shadow-lg opacity-80 group-hover:opacity-100 z-10"
-                                            aria-label="תמונה קודמת"
-                                        >
-                                            ❯
-                                        </button>
-
-                                        <button 
-                                            onClick={() => setActiveSlide((prev) => (prev === 2 ? 0 : prev + 1))}
-                                            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/80 border border-purple-500/40 text-purple-300 flex items-center justify-center hover:bg-purple-600 hover:text-white transition shadow-lg opacity-80 group-hover:opacity-100 z-10"
-                                            aria-label="תמונה הבאה"
-                                        >
-                                            ❮
-                                        </button>
-
-                                        <div className="flex justify-center items-center gap-2 mt-4">
-                                            {[0, 1, 2].map((idx) => (
-                                                <button
-                                                    key={idx}
-                                                    onClick={() => setActiveSlide(idx)}
-                                                    className={`h-2 rounded-full transition-all duration-300 ${
-                                                        activeSlide === idx 
-                                                            ? 'w-8 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.7)]' 
-                                                            : 'w-2 bg-slate-700 hover:bg-slate-500'
-                                                    }`}
-                                                    aria-label={`עבור לתמונה ${idx + 1}`}
-                                                />
-                                            ))}
+                                            <p>• <strong>RFID:</strong> RDM6300</p>
+                                            <p>• <strong>Sensors:</strong> DS1621 (Temp)</p>
+                                            <p>• <strong>Hardware:</strong> Servo Motors, LCD1602, Keypad</p>
+                                            <p>• <strong>Tools:</strong> MATLAB, Keil µVision, UART</p>
                                         </div>
                                     </div>
                                 </div>
@@ -805,34 +648,32 @@
                                     </button>
 
                                     {formStatus === 'success' && (
-                                        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-center text-xs">
-                                            ההודעה נשלחה בהצלחה! אצור איתך קשר בהקדם.
+                                        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-center text-xs font-bold">
+                                            ✔ ההודעה נשלחה בהצלחה! אצור איתך קשר בהקדם.
                                         </div>
                                     )}
 
                                     {formStatus === 'error' && (
                                         <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-center text-xs">
-                                            אירעה שגיאה בשליחה. אנא נסה שנית או פנה אליי בוואטסאפ.
+                                            אירעה שגיאה בשליחה. אנא פנה אליי בוואטסאפ או במייל: Elado841@gmail.com
                                         </div>
                                     )}
                                 </form>
 
                                 <div className="flex flex-wrap items-center justify-center gap-4 pt-4 border-t border-slate-800/80">
                                     <a 
-                                        href="https://api.whatsapp.com/send?phone=972500000000" 
+                                        href="https://api.whatsapp.com/send?phone=972505941445" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="px-6 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500 hover:text-slate-950 font-bold text-xs transition duration-300 flex items-center gap-2"
                                     >
-                                        <span>💬</span> פנייה מהירה בוואטסאפ
+                                        <span>💬</span> וואטסאפ: 050-5941445
                                     </a>
                                     <a 
-                                        href="https://github.com/EladPereg" 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        className="px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 text-white font-bold text-xs transition duration-300 flex items-center gap-2"
+                                        href="mailto:Elado841@gmail.com" 
+                                        className="px-6 py-3 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950 font-bold text-xs transition duration-300 flex items-center gap-2"
                                     >
-                                        <span>💻</span> פרופיל GitHub
+                                        <span>✉️</span> Elado841@gmail.com
                                     </a>
                                 </div>
                             </div>
@@ -840,46 +681,142 @@
 
                     </main>
 
-                    {/* CV VIEW MODAL (VIEW ONLY - NO DOWNLOAD) */}
+                    {/* FUTURISTIC CV MODAL (VIEW ONLY - READ ONLY) */}
                     {isCvOpen && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
-                            <div className="glass-card rounded-3xl w-full max-w-4xl h-[85vh] flex flex-col border border-purple-500/40 shadow-[0_0_50px_rgba(168,85,247,0.3)] overflow-hidden relative">
-                                <div className="flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/90">
-                                    <div className="flex items-center gap-2">
-                                        <span className="w-3 h-3 rounded-full bg-purple-500 animate-pulse"></span>
-                                        <h3 className="font-bold text-white text-sm">קורות חיים – אלעד פרג (צפייה בלבד)</h3>
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-slate-950/85 backdrop-blur-xl animate-fadeIn">
+                            <div className="glass-card rounded-3xl w-full max-w-4xl h-[90vh] flex flex-col border border-purple-500/50 shadow-[0_0_60px_rgba(168,85,247,0.35)] overflow-hidden relative">
+                                
+                                {/* Modal Header */}
+                                <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90">
+                                    <div className="flex items-center gap-3">
+                                        <span className="w-3.5 h-3.5 rounded-full bg-purple-500 animate-pulse shadow-[0_0_12px_#a855f7]"></span>
+                                        <div>
+                                            <h3 className="font-extrabold text-white text-base sm:text-lg">קורות חיים – אלעד פרג</h3>
+                                            <p className="text-[11px] text-purple-300/80 code-font">בס"ד | לצפייה בלבד</p>
+                                        </div>
                                     </div>
                                     <button 
                                         onClick={() => setIsCvOpen(false)}
-                                        className="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:bg-red-500 hover:text-white flex items-center justify-center transition"
+                                        className="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:bg-red-500 hover:text-white flex items-center justify-center transition font-bold"
                                     >
                                         ✕
                                     </button>
                                 </div>
+
+                                {/* Modal Scrollable Body */}
                                 <div 
-                                    className="flex-1 bg-slate-950 p-6 overflow-y-auto select-none"
+                                    className="flex-1 bg-slate-950/90 p-4 sm:p-8 overflow-y-auto select-none space-y-6 text-right"
                                     onContextMenu={(e) => e.preventDefault()}
                                 >
-                                    <div className="max-w-2xl mx-auto space-y-6 text-right bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
-                                        <div className="border-b border-slate-800 pb-4">
-                                            <h2 className="text-2xl font-black text-cyan-400">אלעד פרג</h2>
-                                            <p className="text-xs text-slate-400 code-font">Full Stack Developer | Embedded Engineer | Maker Instructor</p>
+                                    {/* Header & Personal Info Box */}
+                                    <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950/30 via-slate-900 to-cyan-950/30 border border-purple-500/30 space-y-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                                            <div>
+                                                <h1 className="text-3xl font-black text-white tracking-wide">אלעד פרג</h1>
+                                                <p className="text-sm font-bold text-purple-400 code-font">הנדסאי אלקטרוניקה (התמחות במחשבים)</p>
+                                            </div>
+                                            <div className="text-xs text-slate-300 space-y-1 code-font">
+                                                <p>📍 נתיבות (נכונות להעתקת מגורים/נסיעות)</p>
+                                                <p>📞 050-5941445</p>
+                                                <p>✉️ Elado841@gmail.com</p>
+                                            </div>
                                         </div>
-                                        <div className="space-y-2 text-xs text-slate-300">
-                                            <h4 className="font-bold text-purple-400">השכלה:</h4>
-                                            <p>• תואר ראשון בהוראה (B.Ed) – מכללת אורות ישראל.</p>
-                                            <p>• בוגר קורס Full Stack Web Development – SVcollege רחובות.</p>
-                                            <p>• הנדסאי אלקטרוניקה בהתמחות מחשבים – המכללה הטכנולוגית באר שבע.</p>
-                                        </div>
-                                        <div className="space-y-2 text-xs text-slate-300">
-                                            <h4 className="font-bold text-purple-400">ניסיון מקצועי:</h4>
-                                            <p>• מנהל צוות תחזוקה למערכות אנרגיה סולארית.</p>
-                                            <p>• מדריך קורסי Maker ו-STEM לתלמידי חטיבות היסודי והביניים.</p>
+                                        <p className="text-xs text-slate-300 leading-relaxed">
+                                            <strong>תקציר מקצועי:</strong> הנדסאי אלקטרוניקה בעל התמחות במחשבים ורקע מעשי עשיר בפיתוח מערכות משובצות מחשב (Embedded Systems), תכנות מיקרו-בקרים, ואינטגרציית חומרה-תוכנה. ניסיון בתכנון מעגלים ואיתור תקלות מעבדתי (Debugging). שילוב של הבנה הנדסית יסודית, כישורי ניהול והובלת פרויקטים טכנולוגיים, ויכולת גבוהה לעבודה בצוות. בעל מוסר עבודה גבוה, יכולת הסתגלות מהירה וחוסן אישי.
+                                        </p>
+                                    </div>
+
+                                    {/* Technical Skills */}
+                                    <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+                                        <h4 className="text-sm font-bold text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2">
+                                            <span>🛠️</span> כישורים טכניים
+                                        </h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                                            <div className="space-y-1">
+                                                <p className="font-bold text-purple-300">• שפות תכנות וסביבות פיתוח:</p>
+                                                <p className="text-slate-400">C (C51), VHDL, Python, Keil µVision, Quartus, MATLAB.</p>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <p className="font-bold text-purple-300">• מיקרו-בקרים ורכיבים:</p>
+                                                <p className="text-slate-400">Silicon Labs C8051F380, חיישנים (DS1621), RFID (RDM6300), צגי LCD, מנועי Servo.</p>
+                                            </div>
+                                            <div className="sm:col-span-2 space-y-1 border-t border-slate-800/60 pt-2">
+                                                <p className="font-bold text-purple-300">• עבודת מעבדה וציוד:</p>
+                                                <p className="text-slate-400">איתור תקלות (Debugging), קריאת שרטוטים סכמתיים, עבודה עם צב"ד (אוסצילוסקופ, מחולל אותות, רב-מודד).</p>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    {/* Capstone Project */}
+                                    <div className="p-5 rounded-2xl bg-slate-900/60 border border-purple-500/30 space-y-3">
+                                        <h4 className="text-sm font-bold text-purple-400 flex items-center gap-2 border-b border-slate-800 pb-2">
+                                            <span>🛡️</span> פרויקט הנדסי - פרויקט גמר (המכללה הטכנולוגית באר שבע)
+                                        </h4>
+                                        <div className="space-y-2 text-xs text-slate-300">
+                                            <p className="font-bold text-white text-sm">מערכת אבטחה לחדר נקי (מערכת משובצת מחשב)</p>
+                                            <ul className="list-disc list-inside space-y-1 text-slate-300">
+                                                <li>תכנון ופיתוח מערכת אבטחה מרובת-שלבים המבוססת על מיקרו-בקר C8051F380 בשפת C51.</li>
+                                                <li>אינטגרציה מלאה של שלושה מנגנוני אימות: קוד אישי (Keypad), תגי RFID וזיהוי פנים מבוסס אלגוריתמי AI בסביבת MATLAB.</li>
+                                                <li>מימוש תקשורת UART לחיבור וסנכרון הנתונים בין המחשב למיקרו-בקר.</li>
+                                                <li>תכנון, איתור תקלות (Debugging) וכתיבת פונקציות בקרה לתגובת זמן-אמת של המערכת, תפעול מנועי SERVO, חיווי על גבי צג LCD1602 וחיווי קולי.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    {/* Professional Experience */}
+                                    <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+                                        <h4 className="text-sm font-bold text-amber-400 flex items-center gap-2 border-b border-slate-800 pb-2">
+                                            <span>💼</span> ניסיון מקצועי
+                                        </h4>
+                                        <div className="space-y-4 text-xs text-slate-300">
+                                            <div className="space-y-1">
+                                                <div className="flex justify-between font-bold text-white">
+                                                    <span>מדריך ומפתח תוכניות לימוד בתחומי ה-STEM וה-Makers</span>
+                                                    <span className="text-amber-400/80 code-font">(בחוזה עד אמצע ינואר 2027)</span>
+                                                </div>
+                                                <ul className="list-disc list-inside space-y-1 text-slate-400">
+                                                    <li>הנחיית סדנאות מעשיות (Makers) בתחומי האלקטרוניקה, תכנון והדפסה בתלת-ממד, עבודה עם חורטת לייזר בעץ.</li>
+                                                    <li>הנגשת תפיסות הנדסיות וטכנולוגיות מורכבות למגוון קהלי יעד.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 border-t border-slate-800/60 pt-3">
+                                                <div className="flex justify-between font-bold text-white">
+                                                    <span>מנהל צוות תחזוקה | חברה למערכות סולאריות</span>
+                                                </div>
+                                                <ul className="list-disc list-inside space-y-1 text-slate-400">
+                                                    <li>איתור ופתרון תקלות טכניות מורכבות בשטח.</li>
+                                                    <li>ניהול צוות, תיעדוף משימות תחזוקה מונעת ושוטפת, ואחריות על תפעול תקין.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Education & Military */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+                                            <h4 className="text-sm font-bold text-emerald-400 border-b border-slate-800 pb-2">🎓 השכלה</h4>
+                                            <div className="space-y-1.5 text-xs text-slate-300">
+                                                <p>• <strong>דיפלומת הנדסאי אלקטרוניקה (מחשבים):</strong> המכללה הטכנולוגית באר שבע (2025–2026)</p>
+                                                <p>• <strong>תואר ראשון (.B.Ed.) בחינוך והוראה:</strong> מכללת אורות ישראל (2018–2022)</p>
+                                                <p>• <strong>קורס Full Stack Web Development:</strong> מכללת SVcollege ברחובות (2023)</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+                                            <h4 className="text-sm font-bold text-cyan-400 border-b border-slate-800 pb-2">🎖️ שירות צבאי</h4>
+                                            <div className="space-y-1.5 text-xs text-slate-300">
+                                                <p>• <strong>שירות מילואים:</strong> שירות מילואים פעיל ומבצעי בגדוד 84, חטיבת גבעתי.</p>
+                                                <p>• <strong>שירות סדיר:</strong> גדוד 405, חיל התותחנים.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div className="p-3 bg-slate-900/90 border-t border-slate-800 text-center text-[11px] text-slate-400">
-                                    מסמך זה מוגן לצפייה ישירה בלבד.
+
+                                {/* Modal Footer */}
+                                <div className="p-3 bg-slate-900/90 border-t border-slate-800 text-center text-[11px] text-slate-400 code-font">
+                                    🔒 מסמך קורות חיים מאובטח לצפייה ישירה בלבד.
                                 </div>
                             </div>
                         </div>
